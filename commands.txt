@@ -1,0 +1,2 @@
+cd C:\Users\brian\Desktop\CapstoneProject\mysite
+python manage.py runserver
