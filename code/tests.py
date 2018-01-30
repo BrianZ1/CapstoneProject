@@ -27,7 +27,7 @@ for a in article:
 # Testing eventlookup 
 from articles import EventSeperator
 
-event = EventSeperator('2017 Worlds', 'League of Legends')
+event = EventSeperator('2016 Worlds', 'League of Legends')
 
 # only gets teams so far, no list of players
 print(event.get_players())

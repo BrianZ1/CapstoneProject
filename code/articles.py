@@ -40,14 +40,14 @@ class ArticleExtractor:
     def get_websites(self):
         sites = []
     
-        for j in googlesearch.search(self.player_name, tld="com", num=1, start=0, stop=2, pause=2):
+        for site in googlesearch.search(self.player_name, tld="com", num=1, start=0, stop=2, pause=2):
             
-            if '#' in j or 'youtube' in j or 'twitter' \
-                in j or 'facebook' in j or 'urbandictionary' in j:
+            if '#' in site or 'youtube' in site or 'twitter' \
+                in site or 'facebook' in site or 'urbandictionary' in site:
                 continue
             
-            if "com" in j:
-                sites.append(j)
+            if "com" in site:
+                sites.append(site)
 
         return sites
 
@@ -79,33 +79,75 @@ class EventSeperator:
     Creates article extractor for each player and returns articles
     '''
     def get_players(self):
-
-        return self.get_teams()
+        site = self.get_website();
+        team_names = self.get_teams(site);
+        team_with_player_names = self.get_player_names(site, team_names)
+        
+        for team in team_with_player_names:
+            print(team)
+            for player in team_with_player_names[team]:
+                print(player)
+                
+        return None
+    
+    '''
+    Uses gamepedia for event information
+    Returns main webpage for event
+    '''
+    def get_website(self):
+        for site in googlesearch.search((self.event_name + 'gamepedia'), tld="com", num=1, start=0, stop=1, pause=2):
+            return site
         
     '''
     Returns the teams attending / attended an event
-    https://lol.gamepedia.com/2017_Season_World_Championship
     '''
-    def get_teams(self):
-        for j in googlesearch.search((self.event_name + 'gamepedia'), tld="com", num=1, start=0, stop=1, pause=2):
-            site = j
-        
+    def get_teams(self, site):
         html = request.urlopen(site).read().decode('utf8')
         soup = BeautifulSoup(html, "lxml")
         
         teams_table = soup.find("table", {"class":"prettytable"})
         found_teams = teams_table.find_all("span", {"class":"teamLongTitle"})
                 
-        return [t.text for t in found_teams]
+        teams = [team.text for team in found_teams]
+        return sorted(teams, key=str.lower)
         
     '''
-    Returns individual players from team
-    https://lol.gamepedia.com/2016_Season_World_Championship/Team_Rosters
+    Returns individual players seperated by team
     '''
-    def get_players_info(self, team_name):
-        return None
+    def get_player_names(self, site, team_names):        
+        html = request.urlopen(site + "/Team_Rosters").read().decode('utf8')
+        soup = BeautifulSoup(html, "lxml")
+  
+        team_with_player_name = {}
+    
+        all_team_table = soup.find_all("table", {"class":"prettytable"})
         
+        # Check for number of teams matches number of table
+        if len(team_names) != len(all_team_table):
+            print("Number of teams do not match number of tables.")
+            return None
+        
+        # Go through each table
+        for team_table, team_names in zip(all_team_table, team_names):            
+            data = []
 
+            # Seperate by row / column for player name
+            rows = team_table.find_all("tr")
+            for row in rows:
+                cols = row.find_all("td")
+                cols = [ele.text.strip() for ele in cols]
+                data.append([ele for ele in cols if ele])
+            
+            # New table of just player names
+            player_names = [player[0] for player in data if len(player) == 2]
+            
+            team_with_player_name[team_names] = player_names
         
-        
+        return team_with_player_name
+    
+    '''
+    Get articles for player
+    '''
+    def get_articles(self, name):
+        return None
         
