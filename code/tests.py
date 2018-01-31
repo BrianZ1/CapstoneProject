@@ -8,8 +8,7 @@ Created on Wed Jan 17 18:37:04 2018
 # Testing article extractor
 from articles import ArticleExtractor
 
-articles = ArticleExtractor("doublelift")
-
+articles = ArticleExtractor("huhi", "league of legends")
 article = articles.get_articles()
 
 # Testing summarization link
@@ -29,5 +28,17 @@ from articles import EventSeperator
 
 event = EventSeperator('2016 Worlds', 'League of Legends')
 
-# only gets teams so far, no list of players
-print(event.get_players())
+info = event.get_players()
+
+# Example for one team
+for player in info['Team SoloMid']:
+    print(player)
+    print(info['Team SoloMid'][player])
+    print("\n")
+
+# Example for all teams    
+for team in info:
+    for player in info[team]:
+        print(player)
+        print(info[team][player])
+        print("\n")

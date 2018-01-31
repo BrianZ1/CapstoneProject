@@ -18,8 +18,10 @@ class ArticleExtractor:
     '''
     Init class with player name to search
     '''
-    def __init__(self, name):
+    def __init__(self, name, game, bullet_points = 5):
         self.player_name = name
+        self.game_name = game
+        self.number_of_bullet_points = 5
         print(name)
         
     '''
@@ -39,16 +41,13 @@ class ArticleExtractor:
     '''    
     def get_websites(self):
         sites = []
-    
-        for site in googlesearch.search(self.player_name, tld="com", num=1, start=0, stop=2, pause=2):
-            
+        for site in googlesearch.search(self.player_name + self.game_name, tld="com", num=1, start=0, stop=2, pause=2):
             if '#' in site or 'youtube' in site or 'twitter' \
                 in site or 'facebook' in site or 'urbandictionary' in site:
                 continue
             
             if "com" in site:
                 sites.append(site)
-
         return sites
 
     '''
@@ -56,13 +55,15 @@ class ArticleExtractor:
     '''
     def parse_websites(self, url):
         paragraph = []
+
+        try:
+            html = request.urlopen(url).read().decode('utf8')
+            soup = BeautifulSoup(html, "lxml")
         
-        html = request.urlopen(url).read().decode('utf8')
-        soup = BeautifulSoup(html, "lxml")
-        
-        for p in soup.find_all('p'):
-            paragraph.append(p.text)
-            
+            for p in soup.find_all('p'):
+                paragraph.append(p.text)
+        except:
+            paragraph.append("")
         return paragraph
     
 
@@ -73,6 +74,7 @@ class EventSeperator:
     def __init__(self, name, game):
         self.event_name = name
         self.event_game = game
+        self.number_of_bullet_points = 5
         print(name)
         
     '''
@@ -83,12 +85,16 @@ class EventSeperator:
         team_names = self.get_teams(site);
         team_with_player_names = self.get_player_names(site, team_names)
         
+        articles_dict = {}
+        
         for team in team_with_player_names:
-            print(team)
+            player_article = {}
             for player in team_with_player_names[team]:
-                print(player)
+                player_article[player] = self.get_articles(player)
+            
+            articles_dict[team] = player_article
                 
-        return None
+        return articles_dict
     
     '''
     Uses gamepedia for event information
@@ -141,7 +147,7 @@ class EventSeperator:
             # New table of just player names
             player_names = [player[0] for player in data if len(player) == 2]
             
-            team_with_player_name[team_names] = player_names
+            team_with_player_name[team_names] = player_names[:-1]
         
         return team_with_player_name
     
@@ -149,5 +155,6 @@ class EventSeperator:
     Get articles for player
     '''
     def get_articles(self, name):
-        return None
+        articles = ArticleExtractor(name, self.event_game)
+        return articles.get_articles()
         
