@@ -146,7 +146,7 @@ class EventSeperator:
     '''
     def get_roster_site(self, site):
         # League events
-        if self.event_game == "League of Legends":
+        if self.event_game == "league of legends":
             # LoL 2017 worlds - main event and playin event
             if '2017' in self.event_name.lower() and 'world' in self.event_name.lower():
                 site = site + "/Main_Event/Team_Rosters"
