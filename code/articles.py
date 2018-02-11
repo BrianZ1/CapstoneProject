@@ -49,7 +49,7 @@ class ArticleExtractor:
             soup = BeautifulSoup(html, "lxml")
         
             for p in soup.find_all('p'):
-                paragraph.append(p.text)
+                paragraph.append(p.text.strip())
         except:
             paragraph.append("")
                
