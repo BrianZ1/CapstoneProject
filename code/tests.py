@@ -12,5 +12,8 @@ sites = ["https://www.theplayerstribune.com/doublelift-league-of-legends-everyon
 article_extractor = articles.ArticleExtractor('doublelift', 'league of legends', 5)
 sources = [article_extractor.parse_websites(site) for site in sites]
 
-article_summarizer = summarization.Summarization()
-sentences = article_summarizer.summarize_text(sources)
+article_summarizer = summarization.Summarization(article_extractor.number_of_bullet_points)
+summary = article_summarizer.summarize_text(sources)
+
+for sentence in summary:
+    print(sentence)
