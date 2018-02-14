@@ -12,7 +12,6 @@ from multiprocessing import cpu_count
 
 from timeit import default_timer as timer # Timer
 #        start = timer()
-#        print(sources)
 #        end = timer()
 #        print(end - start)
 import sys
@@ -27,7 +26,7 @@ def get_query():
 def get_game():
 #    return input("Enter Game: ").lower()
     
-    return 'League of Legends'
+    return 'league of legends'
 
 def get_number_of_bullet_points():
 #    return input("Number of Bullet Points: ")
@@ -77,6 +76,6 @@ if __name__ == '__main__':
            
             player_article[team] = pool.map(event_extractor.get_articles, team_with_player_names[team])
             articles_dict[team] = player_article
-        print(articles_dict)   
+ 
     else:
         print("Invalid Parameter")

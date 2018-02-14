@@ -10,10 +10,11 @@ import summarization
 
 sites = ["https://www.theplayerstribune.com/doublelift-league-of-legends-everyone-else-is-trash/"]
 article_extractor = articles.ArticleExtractor('doublelift', 'league of legends', 5)
+#sites = article_extractor.get_websites()
 sources = [article_extractor.parse_websites(site) for site in sites]
 
 article_summarizer = summarization.Summarization(article_extractor.number_of_bullet_points)
 summary = article_summarizer.summarize_text(sources)
 
 for sentence in summary:
-    print(sentence)
+    print(u'\u2022 ' + sentence.lstrip("[]1234567890' "))
