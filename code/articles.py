@@ -31,7 +31,7 @@ class ArticleExtractor:
     '''
     def get_websites(self):
         sites = []
-        for site in googlesearch.search(self.player_name + self.game_name, tld="com", lang='en', num=10, start=0, stop=1, pause=2):
+        for site in googlesearch.search(self.player_name + self.game_name, tld="com", lang='en', num=1, start=0, stop=1, pause=2):
             if len(site) == 5:
                 break;
             
@@ -132,16 +132,12 @@ class EventSeperator:
     '''
     Get articles for player
     '''
-    def get_articles(self, name):
-        try:
-            print(name)
-            article_extractor = ArticleExtractor(name, self.event_game)
-            sites = article_extractor.get_websites()
-            sources = [article_extractor.parse_websites(site) for site in sites]
-        except:
-            sources = ["Cannot Find Player"]
-        return sources
-
+    def get_articles(self, player):
+        article_extractor = ArticleExtractor(player, self.event_game)
+        sites = article_extractor.get_websites()        
+        source = [article_extractor.parse_websites(site) for site in sites]
+        return source
+        
     '''
     Get site with player rosters
     Checks for site that do not follow convention

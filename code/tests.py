@@ -6,6 +6,7 @@ Created on Wed Jan 17 18:37:04 2018
 """
 import articles
 import summarization
+import multiprocessing
 from multiprocessing import Pool # Multiprocessing
 from multiprocessing import cpu_count
 import os
@@ -25,7 +26,7 @@ if __name__ == '__main__':
     
     player_list = ['Impact', 'Xmithie', 'Pobelter', 'Doublelift', 'Olleh',
                   'Licorice', 'Svenskeren', 'Jensen', 'Sneaky', 'Smoothie',
-                  'Hauntzer', 'MikeYeung', 'Bjergsen', 'Zven', 'Mithy',
+                  'Hauntzer', 'MikeYeung', 'Bjergsen', 'Zven', 'Mithy'
                   ]
     
     sorted_team_player_list = {'Team Liquid': {'Impact': 'None', 'Xmithie': 'None', 'Pobelter': 'None', 'Doublelift': 'None', 'Olleh': 'None'},
@@ -33,42 +34,27 @@ if __name__ == '__main__':
                               'Team SoloMid': {'Hauntzer': 'None', 'MikeYeung': 'None', 'Bjergsen': 'None', 'Zven': 'None', 'Mithy': 'None'},
                               }
     
+    pool = Pool(cpu_count() * 2)
+    player_articles = pool.map(event_extractor.get_articles, player_list)
+    pool.close()
+    pool.join()
+
+    index = 0
     for team in sorted_team_player_list:
         for player in sorted_team_player_list[team]:
-            sorted_team_player_list[team][player] = 'Hi'
-            
-    print(sorted_team_player_list)
-    
+            sorted_team_player_list[team][player] = player_articles[index]
+            index += 1
+ 
     for team in sorted_team_player_list:
         for player in sorted_team_player_list[team]:
-            sorted_team_player_list[team][player] = sorted_team_player_list[team][player] + "h"
-            
-    print(sorted_team_player_list)
-    
-#    articles_dict = {}
-#    pool = Pool(cpu_count() * 2)
-#
-#    for team in sorted_team_player_list:
-#        player_article = {}
-#        for player in sorted_team_player_list[team]:
-#            player_article[team] = pool.map(event_extractor.get_articles, player_list)
-#            articles_dict[team] = player_article
-#        
-# 
-#    print(articles_dict)
-#
-#    all_summary_dict = {}    
-#    for team in articles_dict:
-#        player_summary_dict = {}
-#        for player in articles_dict[team]:
-#            player_summary_dict[player] = article_summarizer.summarize_text(articles_dict[team][player])
-#            
-#        all_summary_dict[team] = player_summary_dict
-#        
-#    for team in sorted_team_player_list:
-#        for player in sorted_team_player_list[team]:
-#            print(player)
-#            print(sorted_team_player_list[team][player])
+            sorted_team_player_list[team][player] = article_summarizer.summarize_text(sorted_team_player_list[team][player])
+        
+    for team in sorted_team_player_list:
+        for player in sorted_team_player_list[team]:
+            print(player + " Summary:")
+            for sentence in sorted_team_player_list[team][player]:
+                print(u'\u2022 ' + sentence.lstrip("[]1234567890',.\" "))
+                
 #    os.system('PAUSE')
 #def EventExtractorParralleismTest():
 
@@ -82,5 +68,5 @@ def WordProbabilityTest():
     summary = article_summarizer.summarize_text(sources)
     
     for sentence in summary:
-        print(u'\u2022 ' + sentence.lstrip("[]1234567890' "))
+        print(u'\u2022 ' + sentence.lstrip("[]1234567890',.\" "))
         
