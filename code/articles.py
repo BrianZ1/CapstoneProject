@@ -31,7 +31,7 @@ class ArticleExtractor:
     '''
     def get_websites(self):
         sites = []
-        for site in googlesearch.search(self.player_name + self.game_name, tld="com", lang='en', num=10, start=0, stop=5, pause=2):
+        for site in googlesearch.search(self.player_name + self.game_name, tld="com", lang='en', num=10, start=0, stop=1, pause=2):
             if len(site) == 5:
                 break;
             
@@ -46,7 +46,7 @@ class ArticleExtractor:
 
             if "com" in site:
                     
-                print("Adding site: " + site)
+#                print("Adding site: " + site)
                 sites.append(site)
         return sites
 
@@ -54,7 +54,7 @@ class ArticleExtractor:
     Uses beautiful soup to parse given url.
     '''
     def parse_websites(self, url):
-        print("Parsing site: " + url)
+#        print("Parsing site: " + url)
         
         paragraph = []
 
@@ -89,21 +89,21 @@ class EventSeperator:
             return site
 
     '''
-    Returns individual players seperated by team
+    Returns individual players and players seperated by team
     '''
-    def get_player_names(self, site):
+    def get_player_team_names(self, site):
         html = self.get_roster_site(site)
         soup = BeautifulSoup(html, "lxml")
 
         team_with_player_name = {}
+        players = []
 
         team_names = soup.find_all("span", {"class": "teamLongTitle"})
         all_team_table = soup.find_all("table", {"class": "prettytable"})
-        players = []
 
         # Go through each table
         for team_table, team_name in zip(all_team_table, team_names):
-            print("\nFound team:" + str(team_name.text))
+#            print("\nFound team:" + str(team_name.text))
             data = []
             # Seperate by row / column for player name
             rows = team_table.find_all("tr")
@@ -119,20 +119,22 @@ class EventSeperator:
 
             # New table of just player names
             player_names = [player[0] for player in data if len(player) == 2]
-            print("Found players:" + str(player_names))
+#            print("Found players:" + str(player_names))
             
-            team_with_player_name[team_name.text] = player_names
-
+            #Keep tracks a list of players
             players += player_names
+            
+            team_with_player_name[team_name.text] = dict.fromkeys(player_names)
 
         # return players
-        return team_with_player_name
+        return team_with_player_name, players
 
     '''
     Get articles for player
     '''
     def get_articles(self, name):
         try:
+            print(name)
             article_extractor = ArticleExtractor(name, self.event_game)
             sites = article_extractor.get_websites()
             sources = [article_extractor.parse_websites(site) for site in sites]

@@ -41,40 +41,15 @@ class Summarization:
 
         wp = WordProbability()
         
-        print("\nCalculating word probability")
+#        print("\nCalculating word probability")
         word_dict = wp.calculate_word_probability(word_token_text)
-        first5pairs = {k: word_dict[k] for k in list(word_dict)[:5]}
-        print("\nExample: " + str(first5pairs))
-        os.system("PAUSE")
 
         summary = []
         for i in range(self.summary_length):
-            if i == 0:
-                print("\nLooking for sentence: " + str(i + 1))
-            
-                print("\nCalculating sentence score")
-                sentence_dict = wp.calculate_sentence_score(sentence_token_text, word_dict)
-                first5pairs = {k: sentence_dict[k] for k in list(sentence_dict)[:5]}
-                print("\nExample: " + str(first5pairs))
-                os.system("PAUSE")
-            
-                print("\nChoosing best sentence")
-                best_sentence = wp.choose_best_sentences(sentence_dict, word_dict)
-                print("\nAdding sentence: " + best_sentence)
-                summary.append(best_sentence)
-                os.system("PAUSE")
-            
-            
-                print("\nUpdating weights")
-                word_dict = wp.update_weight(best_sentence, word_dict)
-                first5pairs = {k: word_dict[k] for k in list(word_dict)[:5]}
-                print("\nExample: " + str(first5pairs))
-                os.system("PAUSE")
-            else:
-                sentence_dict = wp.calculate_sentence_score(sentence_token_text, word_dict)
-                best_sentence = wp.choose_best_sentences(sentence_dict, word_dict)
-                summary.append(best_sentence) 
-                word_dict = wp.update_weight(best_sentence, word_dict)
+            sentence_dict = wp.calculate_sentence_score(sentence_token_text, word_dict)
+            best_sentence = wp.choose_best_sentences(sentence_dict, word_dict)
+            summary.append(best_sentence) 
+            word_dict = wp.update_weight(best_sentence, word_dict)
         return summary
 
 '''
@@ -122,7 +97,7 @@ class WordProbability():
     def choose_best_sentences(self, sentence_dict, word_dict):
         highest_probability_word = sorted(word_dict, key=word_dict.get, reverse=True)[0]
         sentences_with_word = [sentence for sentence in sentence_dict if word_in_string(sentence, highest_probability_word)]
-        print("Highest probability word: " + highest_probability_word)
+#        print("Highest probability word: " + highest_probability_word)
 
         best_score = 0
         best_sentence = ""

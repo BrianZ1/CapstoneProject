@@ -35,7 +35,7 @@ def get_number_of_bullet_points():
     return input("Number of Bullet Points: ")
 
 def get_search_type(args):
-    #return 'player'
+    return 'player'
     if(len(args) == 2):
         if(args[1].lower() == 'player' or args[1].lower() == 'event'):
             return args[1].lower()
@@ -51,17 +51,14 @@ if __name__ == '__main__':
                                                       get_number_of_bullet_points())
 
         sites = article_extractor.get_websites()
-        os.system("PAUSE")
 
         pool = Pool(cpu_count() * 2)
         sources = pool.map(article_extractor.parse_websites, sites)
-        os.system("PAUSE")
         
         # Text Summarization Stuff
         article_summarizer = summarization.Summarization(article_extractor.number_of_bullet_points)
         
         summary = article_summarizer.summarize_text(sources)
-        os.system("PAUSE")
         
         # Display Stuff
         print("\n\nSummary:")
@@ -73,7 +70,7 @@ if __name__ == '__main__':
         
         site = event_extractor.get_website();
         
-        team_with_player_names = event_extractor.get_player_names(site)
+        team_with_player_names = event_extractor.get_player_team_names(site)
 
         articles_dict = {}
         pool = Pool(cpu_count() * 2)
