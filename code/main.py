@@ -11,10 +11,6 @@ import summarization
 from multiprocessing import Pool # Multiprocessing
 from multiprocessing import cpu_count
 
-from timeit import default_timer as timer # Timer
-#        start = timer()
-#        end = timer()
-#        print(end - start)
 import sys
 
 def get_query():
@@ -55,28 +51,29 @@ if __name__ == '__main__':
         article_summarizer = summarization.Summarization(5)
 
         site = event_extractor.get_website();
-        team_with_player_names = event_extractor.get_player_team_names(site)
+        sorted_team_player_list, player_list = event_extractor.get_player_team_names(site)
         
-        articles_dict = {}
         pool = Pool(cpu_count() * 2)
-        
-        for team in team_with_player_names:
-            player_article = {}
-            for player in team_with_player_names[team]:
-                player_article[player] = event_extractor.get_articles(player)
-            
-            articles_dict[team] = player_article
-           
-#            player_article[team] = pool.map(event_extractor.get_articles, team_with_player_names[team])
-#            articles_dict[team] = player_article
-            
-        all_summary_dict = {}    
-        for team in articles_dict:
-            player_summary_dict = {}
-            for player in articles_dict[team]:
-                player_summary_dict[player] = article_summarizer.summarize_text(articles_dict[team][player])
+        player_articles = pool.map(event_extractor.get_articles, player_list)
+        pool.close()
+        pool.join()
+    
+        index = 0
+        for team in sorted_team_player_list:
+            for player in sorted_team_player_list[team]:
+                sorted_team_player_list[team][player] = player_articles[index]
+                index += 1
                 
-            all_summary_dict[team] = player_summary_dict
+        for team in sorted_team_player_list:
+            for player in sorted_team_player_list[team]:
+                sorted_team_player_list[team][player] = article_summarizer.summarize_text(sorted_team_player_list[team][player])
+       
+        for team in sorted_team_player_list:
+            for player in sorted_team_player_list[team]:
+                print(player + " Summary:")
+                for sentence in sorted_team_player_list[team][player]:
+                    print(u'\u2022 ' + sentence.lstrip("[]1234567890',.\" "))
+                print('\n')
     
     else:
         print("Invalid Parameter")

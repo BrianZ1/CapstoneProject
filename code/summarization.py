@@ -7,7 +7,6 @@ Created on Wed Jan 17 19:30:20 2018
 
 import nltk_opperations
 import string
-import os
 
 '''
 Convert the article from a list to a string
@@ -31,11 +30,18 @@ class Summarization:
 
     '''
     Main function for text summarizer
+        start = timer()
+        end = timer()
+        print(end - start)
     '''
     def summarize_text(self, article):
         string_text = list_to_string(article)
         string_text = string_text.replace("', '", ' ')
         string_text = string_text.replace('", "', ' ')
+    
+        if(len(string_text) < 1):
+            return "Not enought information about player"
+    
         sentence_token_text = nltk_opperations.get_sentance_tokens(string_text)
         word_token_text = nltk_opperations.get_word_tokens(string_text)
 
@@ -43,9 +49,13 @@ class Summarization:
         
 #        print("\nCalculating word probability")
         word_dict = wp.calculate_word_probability(word_token_text)
-
+        
         summary = []
         for i in range(self.summary_length):
+            # No words left - return what we have
+            if(len(word_dict) < 1):
+                return summary
+            
             sentence_dict = wp.calculate_sentence_score(sentence_token_text, word_dict)
             best_sentence = wp.choose_best_sentences(sentence_dict, word_dict)
             summary.append(best_sentence) 
