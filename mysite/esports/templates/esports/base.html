@@ -1,10 +1,35 @@
-<p>{% block title %} Page Description {% endblock title %}</p>
+{% load static %}
 
-<div>
+<!doctype html>
+
+<html lang="en">
+  <head>
+  <meta charset="utf-8">
+  <title>Capstone Project</title>
+  
+  {% block style %}
+  <link rel="stylesheet" type="text/css" href="{% static 'esports/style.css' %}" />
+  {% endblock style %}
+
+  <div class='navbar'>
     <ul>
-        <li><a href="{% url 'home' %}">Home</a></li>
-        <li><a href="{% url 'playersearch' %}">Player Search</a></li>
-        <li><a href="{% url 'eventsearch' %}">Event Search</a></li>
-        <li><a href="{% url 'contact' %}">Contact</a></li>
+      <li><a href="{% url 'home' %}">Home</a></li>
+      <li><a href="{% url 'playersearch' %}">Player Search</a></li>
+      <li><a href="{% url 'eventsearch' %}">Event Search</a></li>
+      <li><a href="{% url 'contact' %}">Contact</a></li>
     </ul>
-</div>
+  </div>
+  </head>
+
+  <body>
+      {% block content %}
+      
+      <p>Don't Show This</p>
+      
+      {% endblock content %}
+  </body>
+
+  <footer>
+
+  </footer>
+</html>

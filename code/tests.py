@@ -107,6 +107,7 @@ def EventExtractorParralleismTest():
             for sentence in sorted_team_player_list[team][player]:
                 print(u'\u2022 ' + sentence.lstrip("[]1234567890',.\" "))
                 print('\n')
+                
 def WordProbabilityTest():
     sites = ["https://www.theplayerstribune.com/doublelift-league-of-legends-everyone-else-is-trash/"]
     article_extractor = articles.ArticleExtractor('doublelift', 'league of legends', 5)
