@@ -20,9 +20,9 @@ if __name__ == '__main__':
     event_extractor = articles.EventSeperator('IEM Season 11 - Gyeonggi', 'league of legends')
     article_summarizer = summarization.Summarization(5)
 
-    #site = event_extractor.get_website();
-    #site = 'https://lol.gamepedia.com/IEM_Season_11_-_Gyeonggi'
-    #sorted_team_player_list, player_list = event_extractor.get_player_team_names(site)
+#    #site = event_extractor.get_website();
+#    site = 'https://lol.gamepedia.com/IEM_Season_11_-_Gyeonggi'
+#    sorted_team_player_list, player_list = event_extractor.get_player_team_names(site)
     
 #    sorted_team_player_list = {'Team Liquid': ['Impact', 'Xmithie', 'Pobelter', 'Doublelift', 'Olleh'],
 #                              'Cloud 9': ['Licorice', 'Svenskeren', 'Jensen', 'Sneaky', 'Smoothie'],

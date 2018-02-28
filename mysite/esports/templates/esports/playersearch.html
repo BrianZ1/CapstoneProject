@@ -4,4 +4,10 @@
 
 <p>Player Search</p> 
 
+<form action='/playersearch/' method='post'>
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Search" />  
+</form>
+
 {% endblock content %}

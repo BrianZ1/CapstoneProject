@@ -13,7 +13,6 @@ from urllib import request
 # Google Search
 import googlesearch
 
-
 class ArticleExtractor:
 
     '''
@@ -98,9 +97,9 @@ class EventSeperator:
         team_with_player_name = {}
         players = []
 
-        team_names = soup.find_all("span", {"class": "teamLongTitle"})
+        team_names = soup.find_all("span", {"class": "mw-headline"})
         all_team_table = soup.find_all("table", {"class": "prettytable"})
-
+        
         # Go through each table
         for team_table, team_name in zip(all_team_table, team_names):
 #            print("\nFound team:" + str(team_name.text))

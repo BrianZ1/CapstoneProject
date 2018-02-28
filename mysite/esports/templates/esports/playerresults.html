@@ -4,4 +4,12 @@
 
 <p>Player Results </p>
 
+<p>{{ player_name }}</p>
+
+<ul>
+{% for sentence in summary %}
+    <li>{{ sentence }} </li>
+{% endfor %}
+</ul>
+
 {% endblock content %}
