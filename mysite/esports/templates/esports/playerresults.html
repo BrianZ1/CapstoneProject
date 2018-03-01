@@ -1,5 +1,6 @@
 {% extends './base.html'  %}
 
+{% load esports_extras %}
 {% block content %} 
 
 <p>Player Results </p>
@@ -8,7 +9,7 @@
 
 <ul>
 {% for sentence in summary %}
-    <li>{{ sentence }} </li>
+    <li>{{ sentence|lstrip }} </li>
 {% endfor %}
 </ul>
 

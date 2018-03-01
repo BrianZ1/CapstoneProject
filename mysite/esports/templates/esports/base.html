@@ -4,29 +4,29 @@
 
 <html lang="en">
   <head>
-  <meta charset="utf-8">
-  <title>Capstone Project</title>
-  
-  {% block style %}
-  <link rel="stylesheet" type="text/css" href="{% static 'esports/style.css' %}" />
-  {% endblock style %}
-
-  <div class='navbar'>
-    <ul>
-      <li><a href="{% url 'home' %}">Home</a></li>
-      <li><a href="{% url 'playersearch' %}">Player Search</a></li>
-      <li><a href="{% url 'eventsearch' %}">Event Search</a></li>
-      <li><a href="{% url 'contact' %}">Contact</a></li>
-    </ul>
-  </div>
+      <meta charset="utf-8">
+      <title>Capstone Project</title>
+      
+      <link rel="stylesheet" type="text/css" href="{% static 'esports/style.css' %}" />
   </head>
 
   <body>
-      {% block content %}
-      
-      <p>Don't Show This</p>
-      
-      {% endblock content %}
+      <div class='body'>
+        <div class='navbar'>
+            <ul>
+              <li><a href="{% url 'home' %}">Home</a></li>
+              <li><a href="{% url 'playersearch' %}">Player Search</a></li>
+              <li><a href="{% url 'eventsearch' %}">Event Search</a></li>
+              <li><a href="{% url 'contact' %}">Contact</a></li>
+            </ul>
+        </div>
+        
+        {% block content %}
+          
+        <p>Don't Show This</p>
+          
+        {% endblock content %}
+     </div>
   </body>
 
   <footer>

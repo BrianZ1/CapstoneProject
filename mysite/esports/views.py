@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, Http404
 
 from .forms import PlayerSearchForm, EventSearchForm, ContactForm
 
@@ -8,6 +8,7 @@ sys.path.append(r'..\code')
 import main
 
 def home(request):
+    request.session.flush()
     return render(request, 'esports/home.html')
 
 def playerSearch(request):    
@@ -26,13 +27,16 @@ def playerSearch(request):
     return render(request, 'esports/playersearch.html', {'form': form})
 
 def playerResults(request, name):
-    player_name = request.session.get('player_name', None)
-    game = request.session.get('game', None)
-    num_bullet = request.session.get('num_bullet', None)
+    try:
+        player_name = request.session.get('player_name', None)
+        game = request.session.get('game', None)
+        num_bullet = request.session.get('num_bullet', None)
+
+        summary = main.player_search(player_name, game, num_bullet)
     
-    summary = main.player_search(player_name, game, num_bullet)
-    
-    context = {'player_name': player_name, 'summary': summary}
+        context = {'player_name': player_name, 'summary': summary}
+    except:
+        raise Http404("Player Not Found")
   
     return render(request, 'esports/playerresults.html', context)
 
@@ -51,13 +55,16 @@ def eventSearch(request):
     return render(request, 'esports/eventsearch.html', {'form': form})
 
 def eventResults(request, name):
-    event_name = request.session.get('event_name', None)
-    game = request.session.get('game', None)
-    
-    sorted_team_player_list = main.event_search(event_name, game)
-    
-    context = {'event_name': event_name, 'game': game, 'sorted_team_player_list': sorted_team_player_list}
-  
+    try:
+        event_name = request.session.get('event_name', None)
+        game = request.session.get('game', None)
+        
+        sorted_team_player_list = main.event_search(event_name, game)
+        
+        context = {'event_name': event_name, 'game': game, 'sorted_team_player_list': sorted_team_player_list}
+    except:
+        raise Http404("Event Not Found")
+        
     return render(request, 'esports/eventresults.html', context)
 
 def contact(request):
