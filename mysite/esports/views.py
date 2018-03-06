@@ -1,7 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect, Http404
+from django.contrib import messages
 
 from .forms import PlayerSearchForm, EventSearchForm, ContactForm
+from .models import Comment
 
 import sys
 sys.path.append(r'..\code')
@@ -72,11 +74,17 @@ def contact(request):
         form = ContactForm(request.POST)
         
         if form.is_valid():
-          request.session['contact_name'] = form.cleaned_data['contact_name']
-          request.session['contact_email'] = form.cleaned_data['contact_email']
-          request.session['content'] = form.cleaned_data['content']
+            new_comment = form.save(commit=False)
+            new_comment.name = form.cleaned_data['name']
+            new_comment.email = form.cleaned_data['email']
+            new_comment.comment = form.cleaned_data['comment']
+            
+            new_comment.save()
+            form.save_m2m()
+            
+            messages.success(request, 'Form submission successful')
           
-          return HttpResponseRedirect('/contact/')
+            return HttpResponseRedirect('/contact/')
     else:
         form = ContactForm()
     

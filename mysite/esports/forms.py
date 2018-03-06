@@ -1,4 +1,7 @@
 from django import forms
+from django.forms import ModelForm
+
+from .models import Comment
 
 GAME_CHOICE = [
     ('', 'Game'),
@@ -19,7 +22,11 @@ class EventSearchForm(forms.Form):
                             widget=forms.TextInput(attrs={'placeholder': 'Enter Event...'}))
     game = forms.ChoiceField(label='', choices=GAME_CHOICE)
     
-class ContactForm(forms.Form):
-    contact_name = forms.CharField(label='Name')
-    contact_email = forms.EmailField(label='Email')
-    content = forms.CharField(label='Comments', widget=forms.Textarea)
+class ContactForm(ModelForm):
+    class Meta:
+        model = Comment
+        fields = ['name', 'email', 'comment']
+
+        widgets = {
+            'email': forms.TextInput(attrs={'placeholder': 'Not Required'}),
+        }
