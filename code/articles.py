@@ -23,7 +23,7 @@ class ArticleExtractor:
         self.game_name = game
         self.number_of_bullet_points = 5
         self.include_gamepedia = True
-        print("Looking up articles for player: " + self.player_name)
+        #print("Looking up articles for player: " + self.player_name)
 
     '''
     Uses google api to get a list of sites
@@ -77,7 +77,7 @@ class EventSeperator:
         self.event_name = name
         self.event_game = game
         self.number_of_bullet_points = 5
-        print("Looking up players for event: " + self.event_name)
+        #print("Looking up players for event: " + self.event_name)
 
     '''
     Uses gamepedia for event information

@@ -30,8 +30,17 @@ def event_search(query, game):
     event_extractor = articles.EventSeperator(query, game)
     article_summarizer = summarization.Summarization(5)
 
-    site = event_extractor.get_website();
-    sorted_team_player_list, player_list = event_extractor.get_player_team_names(site)
+    #site = event_extractor.get_website();
+    #sorted_team_player_list, player_list = event_extractor.get_player_team_names(site)
+    player_list = ['Impact', 'Xmithie', 'Pobelter', 'Doublelift', 'Olleh',
+                  'Licorice', 'Svenskeren', 'Jensen', 'Sneaky', 'Smoothie',
+                  'Hauntzer', 'MikeYeung', 'Bjergsen', 'Zven', 'Mithy'
+                  ]
+    
+    sorted_team_player_list = {'Team Liquid': {'Impact': 'None', 'Xmithie': 'None', 'Pobelter': 'None', 'Doublelift': 'None', 'Olleh': 'None'},
+                              'Cloud 9': {'Licorice': 'None', 'Svenskeren': 'None', 'Jensen': 'None', 'Sneaky': 'None', 'Smoothie': 'None'},
+                              'Team SoloMid': {'Hauntzer': 'None', 'MikeYeung': 'None', 'Bjergsen': 'None', 'Zven': 'None', 'Mithy': 'None'},
+                              }
               
     pool = Pool(cpu_count() * 2)
     player_articles = pool.map(event_extractor.get_articles, player_list)
@@ -47,7 +56,7 @@ def event_search(query, game):
     for team in sorted_team_player_list:
         for player in sorted_team_player_list[team]:
             sorted_team_player_list[team][player] = article_summarizer.summarize_text(sorted_team_player_list[team][player])
- 
+
     return sorted_team_player_list
 
 def main(search_type, query, game, bullets):

@@ -9,6 +9,8 @@ import sys
 sys.path.append(r'..\code')
 import main
 
+from .text import sorted_team_player_list
+
 def home(request):
     request.session.flush()
     return render(request, 'esports/home.html')
@@ -61,9 +63,12 @@ def eventResults(request, name):
         event_name = request.session.get('event_name', None)
         game = request.session.get('game', None)
         
-        sorted_team_player_list = main.event_search(event_name, game)
-        
-        context = {'event_name': event_name, 'game': game, 'sorted_team_player_list': sorted_team_player_list}
+        #sorted_team_player_list = main.event_search(event_name, game)
+        sorted_team_player_list_l = sorted_team_player_list
+    
+        context = {'event_name': event_name,
+                   'game': game,
+                   'sorted_team_player_list': sorted_team_player_list_l}
     except:
         raise Http404("Event Not Found")
         
