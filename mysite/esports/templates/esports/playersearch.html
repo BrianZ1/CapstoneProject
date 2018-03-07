@@ -1,15 +1,17 @@
 {% extends './base.html'  %}
 
+{% block title %}
+    <title>Player Search</title>
+{% endblock title %}
+
 {% block content %}
-
-<p>Player Search</p> 
-
-<div class='form'>
-    <form action='/playersearch/' method='post'>
-        {% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" value="Search" />  
-    </form>
-</div>
+    
+    <div class='form'>
+        <form action='/playersearch/' method='post'>
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" value="Search" />  
+        </form>
+    </div>
 
 {% endblock content %}

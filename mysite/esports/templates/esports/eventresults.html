@@ -1,21 +1,32 @@
 {% extends './base.html'  %}
+{% load esports_extras %}
+
+{% block title %}
+    <title>Event Results</title>
+{% endblock title %}
 
 {% block content %} 
 
-<p>Event Results </p>
-
-<p>{{ event_name }}</p>
-
-{% for team, players in sorted_team_player_list.items %}
-    <h2>{{team}}</h2>
-    {% for player, article in players.items %}
-        <h3>{{player}}</h3>
+    <div class='navbar'>
         <ul>
-        {% for sentence in article %}
-            <li>{{ sentence }} </li>
-        {% endfor %}
+            {% for team in sorted_team_player_list %}
+                <li><a href="{% url 'eventsearch' %}">{{team}}</a></li>
+            {% endfor %}
         </ul>
+    </div>
+
+    <p>{{ event_name }}</p>
+    
+    {% for team in sorted_team_player_list %}
+        <h2>{{team}}</h2>
+        {% for player in sorted_team_player_list|get_dict_item:team %}
+            <h3>{{player}}</h3>
+            <ul>
+            {% for sentence in sorted_team_player_list|get_dict_item:team|get_dict_item:player %}
+                <li>{{ sentence|lstrip }} </li>
+            {% endfor %}
+            </ul>
+        {% endfor %}
     {% endfor %}
-{% endfor %}
 
 {% endblock content %}

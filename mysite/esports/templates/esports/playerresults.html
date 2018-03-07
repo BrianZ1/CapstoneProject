@@ -1,16 +1,18 @@
 {% extends './base.html'  %}
-
 {% load esports_extras %}
+
+{% block title %}
+    <title>Player Results</title>
+{% endblock title %}
+
 {% block content %} 
 
-<p>Player Results </p>
-
-<p>{{ player_name }}</p>
-
-<ul>
-{% for sentence in summary %}
-    <li>{{ sentence|lstrip }} </li>
-{% endfor %}
-</ul>
+    <p>{{ player_name }}</p>
+    
+    <ul>
+    {% for sentence in summary %}
+        <li>{{ sentence|lstrip }} </li>
+    {% endfor %}
+    </ul>
 
 {% endblock content %}

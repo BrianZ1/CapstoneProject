@@ -11,3 +11,7 @@ def lstrip(value):
 @register.filter
 def lower(value):
     return value.lower()
+
+@register.filter
+def get_dict_item(value, team):
+    return value[team]

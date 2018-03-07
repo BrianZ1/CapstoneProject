@@ -1,21 +1,23 @@
 {% extends './base.html'  %}
 
+{% block title %}
+    <title>Contact Page</title>
+{% endblock title %}
+
 {% block content %} 
-
-<p>Contact Page</p>
-
-{% if messages %}
-<ul class="messages">
-    {% for message in messages %}
-    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-    {% endfor %}
-</ul>
-{% endif %}
-
-<form action='/contact/' method='post'>
-    {% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="Submit" />  
-</form>
+    
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    
+    <form action='/contact/' method='post'>
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Submit" />  
+    </form>
 
 {% endblock content %}
