@@ -7,26 +7,29 @@
 
 {% block content %} 
 
-    <div class='navbar'>
-        <ul>
-            {% for team in sorted_team_player_list %}
-                <li><a href="{% url 'eventsearch' %}">{{team}}</a></li>
-            {% endfor %}
-        </ul>
-    </div>
-
-    <p>{{ event_name }}</p>
-    
-    {% for team in sorted_team_player_list %}
-        <h2>{{team}}</h2>
-        {% for player in sorted_team_player_list|get_dict_item:team %}
-            <h3>{{player}}</h3>
-            <ul>
-            {% for sentence in sorted_team_player_list|get_dict_item:team|get_dict_item:player %}
-                <li>{{ sentence|lstrip }} </li>
-            {% endfor %}
-            </ul>
+    <ul>
+        {% for team in sorted_team_player_list %}
+            <li class="dropdown">
+                <a href="{% url 'eventresultsteam' event_name team %}" class="dropbtn">{{team}}</a>
+                <div class="dropdown-content">
+                    {% for player in sorted_team_player_list|get_dict_item:team %}
+                    <p>{{player}}</p>
+                    {% endfor %}
+                </div>
+            </li>
         {% endfor %}
+    </ul>
+    
+    <h1>{{ event_name }}</h1>
+    
+    <h2>{{team_name}}</h2>
+    {% for player in sorted_team_player_list|get_dict_item:team_name %}
+        <h3>{{player}}</h3>
+        <ul>
+        {% for sentence in sorted_team_player_list|get_dict_item:team_name|get_dict_item:player %}
+            <li>{{ sentence|lstrip }} </li>
+        {% endfor %}
+        </ul>
     {% endfor %}
 
 {% endblock content %}

@@ -8,7 +8,7 @@ urlpatterns = [
     path('playersearch/<str:name>/', views.playerResults, name='playerresults'),
     path('eventsearch/', views.eventSearch, name='eventsearch'),
     path('eventsearch/<str:name>/', views.eventResults, name='eventresults'),
-    path('eventsearch/<str:name>/<str:team>', views.eventResults, name='eventresults'),
+    path('eventsearch/<str:name>/<str:team>', views.eventResultsTeam, name='eventresultsteam'),
     path('contact/', views.contact, name='contact'),      
     
 ]

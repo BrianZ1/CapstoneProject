@@ -9,7 +9,7 @@ import sys
 sys.path.append(r'..\code')
 import main
 
-from .text import sorted_team_player_list
+from .text import sorted_team_player_list as stpl
 
 def home(request):
     request.session.flush()
@@ -63,12 +63,31 @@ def eventResults(request, name):
         event_name = request.session.get('event_name', None)
         game = request.session.get('game', None)
         
-        #sorted_team_player_list = main.event_search(event_name, game)
-        sorted_team_player_list_l = sorted_team_player_list
+        sorted_team_player_list = main.event_search(event_name, game)
+        #sorted_team_player_list = stpl
+        
+        request.session['sorted_team_player_list'] = sorted_team_player_list
     
         context = {'event_name': event_name,
                    'game': game,
-                   'sorted_team_player_list': sorted_team_player_list_l}
+                   'sorted_team_player_list': sorted_team_player_list,
+                   'team_name': next(iter(sorted_team_player_list))
+                   }
+    except:
+        raise Http404("Event Not Found")
+        
+    return render(request, 'esports/eventresults.html', context)
+
+def eventResultsTeam(request, name, team):
+    try:
+        event_name = request.session.get('event_name', None)
+        game = request.session.get('game', None)
+    
+        context = {'event_name': event_name,
+                   'game': game,
+                   'sorted_team_player_list': request.session.get('sorted_team_player_list', None),
+                   'team_name': team,
+                   }
     except:
         raise Http404("Event Not Found")
         
