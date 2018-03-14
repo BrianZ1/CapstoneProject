@@ -20,24 +20,24 @@ if __name__ == '__main__':
     event_extractor = articles.EventSeperator('IEM Season 11 - Gyeonggi', 'league of legends')
     article_summarizer = summarization.Summarization(5)
 
-#    #site = event_extractor.get_website();
-#    site = 'https://lol.gamepedia.com/IEM_Season_11_-_Gyeonggi'
-#    sorted_team_player_list, player_list = event_extractor.get_player_team_names(site)
+    site = event_extractor.get_website();
+    #site = 'https://lol.gamepedia.com/IEM_Season_11_-_Gyeonggi'
+    sorted_team_player_list, player_list = event_extractor.get_player_team_names(site)
     
 #    sorted_team_player_list = {'Team Liquid': ['Impact', 'Xmithie', 'Pobelter', 'Doublelift', 'Olleh'],
 #                              'Cloud 9': ['Licorice', 'Svenskeren', 'Jensen', 'Sneaky', 'Smoothie'],
 #                              'Team SoloMid': ['Hauntzer', 'MikeYeung', 'Bjergsen', 'Zven', 'Mithy'],
 #                             }
-    
-    player_list = ['Impact', 'Xmithie', 'Pobelter', 'Doublelift', 'Olleh',
-                  'Licorice', 'Svenskeren', 'Jensen', 'Sneaky', 'Smoothie',
-                  'Hauntzer', 'MikeYeung', 'Bjergsen', 'Zven', 'Mithy'
-                  ]
-    
-    sorted_team_player_list = {'Team Liquid': {'Impact': 'None', 'Xmithie': 'None', 'Pobelter': 'None', 'Doublelift': 'None', 'Olleh': 'None'},
-                              'Cloud 9': {'Licorice': 'None', 'Svenskeren': 'None', 'Jensen': 'None', 'Sneaky': 'None', 'Smoothie': 'None'},
-                              'Team SoloMid': {'Hauntzer': 'None', 'MikeYeung': 'None', 'Bjergsen': 'None', 'Zven': 'None', 'Mithy': 'None'},
-                              }
+#    
+#    player_list = ['Impact', 'Xmithie', 'Pobelter', 'Doublelift', 'Olleh',
+#                  'Licorice', 'Svenskeren', 'Jensen', 'Sneaky', 'Smoothie',
+#                  'Hauntzer', 'MikeYeung', 'Bjergsen', 'Zven', 'Mithy'
+#                  ]
+#    
+#    sorted_team_player_list = {'Team Liquid': {'Impact': 'None', 'Xmithie': 'None', 'Pobelter': 'None', 'Doublelift': 'None', 'Olleh': 'None'},
+#                              'Cloud 9': {'Licorice': 'None', 'Svenskeren': 'None', 'Jensen': 'None', 'Sneaky': 'None', 'Smoothie': 'None'},
+#                              'Team SoloMid': {'Hauntzer': 'None', 'MikeYeung': 'None', 'Bjergsen': 'None', 'Zven': 'None', 'Mithy': 'None'},
+#                              }
     
     pool = Pool(cpu_count() * 2)
     player_articles = pool.map(event_extractor.get_articles, player_list)

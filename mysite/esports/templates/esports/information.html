@@ -1,0 +1,11 @@
+{% load esports_extras %}
+
+<h2>{{team_name}}</h2>
+{% for player in sorted_team_player_list|get_dict_item:team_name %}
+    <h3>{{player}}</h3>
+    <ul>
+    {% for sentence in sorted_team_player_list|get_dict_item:team_name|get_dict_item:player %}
+        <li>{{ sentence|lstrip }} </li>
+    {% endfor %}
+    </ul>
+{% endfor %}

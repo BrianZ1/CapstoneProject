@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.contrib import messages
+from django.http import JsonResponse
 
 from .forms import PlayerSearchForm, EventSearchForm, ContactForm
 from .models import Comment
@@ -62,16 +63,20 @@ def eventResults(request, name):
     try:
         event_name = request.session.get('event_name', None)
         game = request.session.get('game', None)
+        request.session['team'] = 'Team Liquid'
         
-        sorted_team_player_list = main.event_search(event_name, game)
+        #sorted_team_player_list = main.event_search(event_name, game)
         #sorted_team_player_list = stpl
         
-        request.session['sorted_team_player_list'] = sorted_team_player_list
+        #request.session['sorted_team_player_list'] = sorted_team_player_list
     
         context = {'event_name': event_name,
                    'game': game,
-                   'sorted_team_player_list': sorted_team_player_list,
-                   'team_name': next(iter(sorted_team_player_list))
+                   #'sorted_team_player_list': sorted_team_player_list,
+                    #'team_name': next(iter(sorted_team_player_list))
+                   #'team_name': main.event_search(event_name, game)
+                   'sorted_team_player_list': request.session.get('sorted_team_player_list', None),
+                   'team_name': 'Team Liquid'
                    }
     except:
         raise Http404("Event Not Found")
@@ -82,6 +87,7 @@ def eventResultsTeam(request, name, team):
     try:
         event_name = request.session.get('event_name', None)
         game = request.session.get('game', None)
+        request.session['team'] = team
     
         context = {'event_name': event_name,
                    'game': game,
@@ -92,6 +98,19 @@ def eventResultsTeam(request, name, team):
         raise Http404("Event Not Found")
         
     return render(request, 'esports/eventresults.html', context)
+
+def eventInformation(request):
+    #sorted_team_player_list = main.event_search('IEM Season 11 - Gyeonggi', 'league of legends')
+    sorted_team_player_list = stpl
+
+    context = { #'sorted_team_player_list': sorted_team_player_list,
+               #'team_name': next(iter(sorted_team_player_list))
+               'sorted_team_player_list': sorted_team_player_list,
+               'team_name': request.session.get('team', None),
+               }
+        
+    request.session['sorted_team_player_list'] = sorted_team_player_list
+    return render(request, 'esports/information.html', context)
 
 def contact(request):
     if request.method == 'POST':
