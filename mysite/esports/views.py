@@ -8,7 +8,7 @@ from .models import Comment
 
 import sys
 sys.path.append(r'..\code')
-import main
+import main, articles, summarization
 
 from .text import sorted_team_player_list as stpl
 
@@ -63,20 +63,18 @@ def eventResults(request, name):
     try:
         event_name = request.session.get('event_name', None)
         game = request.session.get('game', None)
-        request.session['team'] = 'Team Liquid'
         
-        #sorted_team_player_list = main.event_search(event_name, game)
-        #sorted_team_player_list = stpl
+        event_extractor = articles.EventSeperator(event_name, game)
+
+        site = event_extractor.get_website();
+        sorted_team_player_list, player_list = event_extractor.get_player_team_names(site)
         
-        #request.session['sorted_team_player_list'] = sorted_team_player_list
+        request.session['sorted_team_player_list'] = sorted_team_player_list
     
         context = {'event_name': event_name,
                    'game': game,
-                   #'sorted_team_player_list': sorted_team_player_list,
-                    #'team_name': next(iter(sorted_team_player_list))
-                   #'team_name': main.event_search(event_name, game)
-                   'sorted_team_player_list': request.session.get('sorted_team_player_list', None),
-                   'team_name': 'Team Liquid'
+                   'sorted_team_player_list': sorted_team_player_list,
+                   'team_name': next(iter(sorted_team_player_list)),
                    }
     except:
         raise Http404("Event Not Found")
@@ -87,7 +85,6 @@ def eventResultsTeam(request, name, team):
     try:
         event_name = request.session.get('event_name', None)
         game = request.session.get('game', None)
-        request.session['team'] = team
     
         context = {'event_name': event_name,
                    'game': game,
@@ -100,16 +97,14 @@ def eventResultsTeam(request, name, team):
     return render(request, 'esports/eventresults.html', context)
 
 def eventInformation(request):
-    #sorted_team_player_list = main.event_search('IEM Season 11 - Gyeonggi', 'league of legends')
-    sorted_team_player_list = stpl
+    #sorted_team_player_list = stpl
+    
+    player_name = request.GET.get('player', None)
+    game = request.session.get('game', None)
+    summary = main.player_search(player_name, game, 5)
 
-    context = { #'sorted_team_player_list': sorted_team_player_list,
-               #'team_name': next(iter(sorted_team_player_list))
-               'sorted_team_player_list': sorted_team_player_list,
-               'team_name': request.session.get('team', None),
-               }
-        
-    request.session['sorted_team_player_list'] = sorted_team_player_list
+    context = { 'summary': summary }
+    
     return render(request, 'esports/information.html', context)
 
 def contact(request):
