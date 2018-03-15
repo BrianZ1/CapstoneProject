@@ -1,23 +1,32 @@
 {% extends './base.html'  %}
+{% load static %}
 
 {% block title %}
-    <title>Contact Page</title>
+<title>Contact Page</title>
 {% endblock title %}
 
-{% block content %} 
-    
-    {% if messages %}
-    <ul class="messages">
-        {% for message in messages %}
-        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-        {% endfor %}
-    </ul>
-    {% endif %}
-    
-    <form action='/contact/' method='post'>
-        {% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" value="Submit" />  
-    </form>
+{% block style %}
+<link rel="stylesheet" type="text/css" href="{% static 'esports/form.css' %}" />
+{% endblock style %}
+
+{% block content %}
+
+<div class="contact-form">
+  {% if messages %}
+  <ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}" {% endif %}>
+      {{ message }}
+    </li>
+      {% endfor %}
+  </ul>
+  {% endif %}
+
+  <form action='/contact/' method='post'>
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Submit" />
+  </form>
+</div>
 
 {% endblock content %}

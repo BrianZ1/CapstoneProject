@@ -1,42 +1,43 @@
-{% load static %}
+﻿{% load static %}
 
 <!doctype html>
 
 <html lang="en">
   <head>
-      <meta charset="utf-8">
-      
-      {% block title %}
-      <title>Capstone Project</title>
-      {% endblock title %}
-      
-      <link rel="stylesheet" type="text/css" href="{% static 'esports/style.css' %}" />
+    <meta charset="utf-8">
+
+    {% block title %}
+    <title>Capstone Project</title>
+    {% endblock title %}
+
+    <link rel="stylesheet" type="text/css" href="{% static 'esports/style.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'esports/navbar.css' %}" />
+    {% block style %} {% endblock style %}
   </head>
 
   <body>
-      <div class='body'>
-        <div class='navbar'>
-            <ul>
-              <li><a href="{% url 'home' %}">Home</a></li>
-              <li><a href="{% url 'playersearch' %}">Player Search</a></li>
-              <li><a href="{% url 'eventsearch' %}">Event Search</a></li>
-              <li><a href="{% url 'contact' %}">Contact</a></li>
-            </ul>
-        </div>
-        
-        {% block content %}
-          
-        <p>Don't Show This</p>
-          
-        {% endblock content %}
-     </div>
-  </body>
 
-  <footer>
+    <div class='navbar'>
+      <ul>
+        <li><a href="{% url 'home' %}">Home</a></li>
+        <li><a href="{% url 'playersearch' %}">Player Search</a></li>
+        <li><a href="{% url 'eventsearch' %}">Event Search</a></li>
+        <li><a href="{% url 'contact' %}">Contact</a></li>
+      </ul>
+    </div>
 
-  </footer>
-  
+    <div class='content'>
+      {% block content %}
+
+      <p>Don't Show This</p>
+
+      {% endblock content %}
+    </div>
+
+    <footer></footer>
+
     <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
     {% block javascript %}
     {% endblock %}
+  </body>
 </html>

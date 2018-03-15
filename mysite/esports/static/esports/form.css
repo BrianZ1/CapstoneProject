@@ -1,0 +1,67 @@
+/*****************************************
+Player Search Form
+******************************************/
+
+/*****************************************
+Event Search Form
+******************************************/
+
+/*****************************************
+Contact Form
+******************************************/
+
+.contact-form {
+  border-radius: 5px;
+  background-color: #f2f2f2;
+  padding: 20px;
+  width: 40%;
+  text-align: center;
+  margin-top: 20px;
+}
+
+.contact-form p {
+  color: green;
+  font-size: 20px;
+}
+
+.contact-form input[type=text], textarea {
+  float: right;
+  width: 75%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  resize: vertical;
+  height: 20%;
+}
+
+.contact-form input[type=text]:focus, textarea:focus {
+  border: 1px solid #555;
+  outline: none;
+}
+
+.contact-form input[type=submit] {
+  background-color: #4CAF50;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.contact-form input[type=submit]:hover{
+  background-color: #45a049;
+}
+
+.contact-form label {
+  float: left;
+}
+
+.contact-form p:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.contact-form ul {
+  list-style-type: none;
+}

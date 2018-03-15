@@ -64,10 +64,12 @@ def eventResults(request, name):
         event_name = request.session.get('event_name', None)
         game = request.session.get('game', None)
         
-        event_extractor = articles.EventSeperator(event_name, game)
+        #event_extractor = articles.EventSeperator(event_name, game)
 
-        site = event_extractor.get_website();
-        sorted_team_player_list, player_list = event_extractor.get_player_team_names(site)
+        #site = event_extractor.get_website();
+        #sorted_team_player_list, player_list = event_extractor.get_player_team_names(site)
+        
+        sorted_team_player_list = stpl
         
         request.session['sorted_team_player_list'] = sorted_team_player_list
     
@@ -97,11 +99,12 @@ def eventResultsTeam(request, name, team):
     return render(request, 'esports/eventresults.html', context)
 
 def eventInformation(request):
-    #sorted_team_player_list = stpl
     
     player_name = request.GET.get('player', None)
     game = request.session.get('game', None)
-    summary = main.player_search(player_name, game, 5)
+    #summary = main.player_search(player_name, game, 5)
+    
+    summary = "Hi"
 
     context = { 'summary': summary }
     
@@ -120,7 +123,7 @@ def contact(request):
             new_comment.save()
             form.save_m2m()
             
-            messages.success(request, 'Form submission successful')
+            messages.success(request, 'Comment Received')
           
             return HttpResponseRedirect('/contact/')
     else:

@@ -1,63 +1,68 @@
 {% extends './base.html'  %}
+{% load static %}
 {% load esports_extras %}
 
 {% block title %}
-    <title>Event Results</title>
+<title>Event Results</title>
 {% endblock title %}
+
+{% block style %}
+
+{% endblock style %}
 
 {% block javascript %}
 
-    <script>    
-    $("#players-info").find("ul").each(function(){      
-        var name = this.id;
-       
-        $.ajax({
-            url: "{% url 'eventinformation' %}",
-            type: 'get',
-            data: {
-                'player': this.id,
-            },
-            success: function(data) {
-                $("#" + name).html(data);          
-            },
-            failure: function(data) { 
-                $("#" + name).html("Loading...");
-            }
-            
-        }); 
-        
+<script>
+  $("#players-info").find("ul").each(function () {
+    var name = this.id;
+
+    $.ajax({
+      url: "{% url 'eventinformation' %}",
+      type: 'get',
+      data: {
+        'player': this.id,
+      },
+      success: function (data) {
+        $("#" + name).html(data);
+      },
+      failure: function (data) {
+        $("#" + name).html("Loading...");
+      }
+
     });
-    </script>
-    
+
+  });
+</script>
+
 {% endblock %}
 
 {% block content %}
-    <ul>
-        {% for team in sorted_team_player_list %}
-            <li class="dropdown">
-                <a href="{% url 'eventresultsteam' event_name team %}" class="dropbtn">{{team}}</a>
-                <div class="dropdown-content">
-                    {% for player in sorted_team_player_list|get_dict_item:team %}
-                        <p>{{player}}</p>
-                    {% endfor %}
-                </div>
-            </li>
-        {% endfor %}
-    </ul>
-    
-    <h1>{{ event_name }}</h1>
-    
-    <div id="players-info">
-        <h2>{{team_name}}</h2>
-        {% for player in sorted_team_player_list|get_dict_item:team_name %}
-            <h3>{{player}}</h3>
-            <ul id={{player}}>
-            Getting player information...
-            {% for sentence in sorted_team_player_list|get_dict_item:team_name|get_dict_item:player %}
-            <li>{{ sentence|lstrip }} </li>
-            {% endfor %}
-            </ul>
-        {% endfor %}
+<ul>
+  {% for team in sorted_team_player_list %}
+  <li class="dropdown">
+    <a href="{% url 'eventresultsteam' event_name team %}" class="dropbtn">{{team}}</a>
+    <div class="dropdown-content">
+      {% for player in sorted_team_player_list|get_dict_item:team %}
+      <p>{{player}}</p>
+      {% endfor %}
     </div>
+  </li>
+  {% endfor %}
+</ul>
+
+<h1>{{ event_name }}</h1>
+
+<div id="players-info">
+  <h2>{{team_name}}</h2>
+  {% for player in sorted_team_player_list|get_dict_item:team_name %}
+  <h3>{{player}}</h3>
+  <ul id={{player}}>
+    Getting player information...
+    {% for sentence in sorted_team_player_list|get_dict_item:team_name|get_dict_item:player %}
+    <li>{{ sentence|lstrip }} </li>
+    {% endfor %}
+  </ul>
+  {% endfor %}
+</div>
 
 {% endblock content %}
