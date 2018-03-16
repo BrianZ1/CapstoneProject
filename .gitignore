@@ -1,3 +1,4 @@
 .spyproject
 commands
 secret_key.txt
+.vs
