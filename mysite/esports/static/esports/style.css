@@ -7,6 +7,6 @@ body {
   font-family: Georgia;
 }
 
-.content h1 {
+.content h1, h2 {
   text-align: center;
 }

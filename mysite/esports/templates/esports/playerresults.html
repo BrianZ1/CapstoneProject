@@ -7,17 +7,18 @@
 {% endblock title %}
 
 {% block style %}
-
+<link rel="stylesheet" type="text/css" href="{% static 'esports/information.css' %}" />
 {% endblock style %}
 
 {% block content %}
 
-<p>{{ player_name }}</p>
-
-<ul>
-  {% for sentence in summary %}
-  <li>{{ sentence|lstrip }} </li>
-  {% endfor %}
-</ul>
+<div class="player-info">
+  <h3>{{ player_name }}</h3>
+  <ul>
+    {% for sentence in summary %}
+    <li>{{ sentence|lstrip }} </li>
+    {% endfor %}
+  </ul>
+</div>
 
 {% endblock content %}

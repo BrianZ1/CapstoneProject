@@ -1,8 +1,44 @@
 /*****************************************
-Player Search
+Player Search Results
 ******************************************/
+.player-info {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: green;
+  border-radius: 2px;
+  border: 1px solid #555;
+  margin-top: 10px;
+}
 
+  .player-info h3 {
+    text-align: center;
+  }
+
+  .player-info ul li {
+    color: blue;
+  }
 
 /*****************************************
-Event Search
+Event Search Results
 ******************************************/
+.event-info {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+  .event-info div {
+    background-color: green;
+    border-radius: 2px;
+    border: 1px solid #555;
+    margin-top: 10px;
+  }
+
+  .event-info h3 {
+    text-align: center;
+  }
+
+  .event-info ul li {
+    color: blue;
+  }

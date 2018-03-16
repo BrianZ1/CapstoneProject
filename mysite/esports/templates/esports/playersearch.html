@@ -6,16 +6,16 @@
 {% endblock title %}
 
 {% block style %}
-
+<link rel="stylesheet" type="text/css" href="{% static 'esports/form.css' %}" />
 {% endblock style %}
 
 {% block content %}
 
-<div class='form'>
+<div class='player-form'>
   <form action='/playersearch/' method='post'>
     {% csrf_token %}
     {{ form.as_p }}
-    <input type="submit" value="Search" />
+    <input type="submit" value="Search Player" />
   </form>
 </div>
 
