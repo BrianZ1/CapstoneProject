@@ -5,17 +5,30 @@
 <title>Player Search</title>
 {% endblock title %}
 
+{% block javascript %}
+
+<script>
+  $("#submit-button").click(function() {
+     $(".player-form").hide();
+     $("#loading").show();
+  });
+</script>
+
+{% endblock javascript %}
+
 {% block style %}
 <link rel="stylesheet" type="text/css" href="{% static 'esports/form.css' %}" />
 {% endblock style %}
 
 {% block content %}
 
-<div class='player-form'>
+<p id="loading" style="display:none">Getting Player Information...</p>
+
+<div class="player-form">
   <form action='/playersearch/' method='post'>
     {% csrf_token %}
     {{ form.as_p }}
-    <input type="submit" value="Search Player" />
+    <input type="submit" value="Search Player" id="submit-button"/>
   </form>
 </div>
 

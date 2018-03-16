@@ -5,17 +5,30 @@
 <title>Event Search</title>
 {% endblock title %}
 
+{% block javascript %}
+
+<script>
+  $("#submit-button").click(function() {
+     $(".event-form").hide();
+     $("#loading").show();
+  });
+</script>
+
+{% endblock javascript %}
+
 {% block style %}
 <link rel="stylesheet" type="text/css" href="{% static 'esports/form.css' %}" />
 {% endblock style %}
 
 {% block content %}
 
+<p id="loading" style="display:none">Getting Players List...</p>
+
 <div class="event-form">
   <form action='/eventsearch/' method='post'>
     {% csrf_token %}
     {{ form.as_p }}
-    <input type="submit" value="Search Event" />
+    <input type="submit" value="Search Event" id="submit-button"/>
   </form>
 </div>
 
