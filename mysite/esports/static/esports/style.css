@@ -2,11 +2,17 @@
 Main Style
 ******************************************/
 body {
-  background-color: white;
+  background-color: #E5E5E5;
   display: block;
-  font-family: Georgia;
+  font-family: sans-serif;
 }
 
-.content h1, h2 {
+.content h1 {
   text-align: center;
+  color: #191919;
+}
+
+.content h2 {
+  text-align: center;
+  color: #191919;
 }

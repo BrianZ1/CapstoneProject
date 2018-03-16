@@ -5,18 +5,17 @@ Player Search Results
   width: 100%;
   margin-left: auto;
   margin-right: auto;
-  background-color: green;
   border-radius: 2px;
-  border: 1px solid #555;
   margin-top: 10px;
 }
 
   .player-info h3 {
     text-align: center;
+    color: #191919;
   }
 
   .player-info ul li {
-    color: blue;
+    color: #EA3057;
   }
 
 /*****************************************
@@ -29,16 +28,19 @@ Event Search Results
 }
 
   .event-info div {
-    background-color: green;
     border-radius: 2px;
-    border: 1px solid #555;
-    margin-top: 10px;
+    margin-top: 50px;
   }
 
   .event-info h3 {
     text-align: center;
+    color: #191919;
+  }
+  
+  .event-info ul {
+    color: #5B5553;
   }
 
   .event-info ul li {
-    color: blue;
+    color: #EA3057;
   }

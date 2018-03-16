@@ -3,7 +3,6 @@ Player Search Form
 ******************************************/
 .player-form {
   border-radius: 5px;
-  background-color: #f2f2f2;
   padding: 20px;
   width: 30%;
   text-align: center;
@@ -19,7 +18,7 @@ Player Search Form
     float: right;
     width: 50%;
     padding: 10px;
-    border: 1px solid #ccc;
+    border: 1px solid #B1A7A5;
     border-radius: 4px;
     resize: vertical;
     height: 20%;
@@ -28,14 +27,14 @@ Player Search Form
     box-sizing: content-box;
   }
 
-    .player-form input[type=text]:focus, textarea:focus {
-      border: 1px solid #555;
+    .player-form input[type=text]:focus, textarea:focus, select:focus {
+      border: 1px solid #EA3057;
       outline: none;
     }
 
   .player-form input[type=submit] {
-    background-color: #4CAF50;
-    color: white;
+    background-color: #5B5553;
+    color: #F4F5F6;
     padding: 12px 20px;
     border: none;
     border-radius: 4px;
@@ -43,7 +42,7 @@ Player Search Form
   }
 
     .player-form input[type=submit]:hover {
-      background-color: #45a049;
+      background-color: #B1A7A5;
     }
 
   .player-form label {
@@ -51,6 +50,7 @@ Player Search Form
     float: left;
     text-align: right;
     width: 160px;
+    color: #191919;
   }
 
   .player-form p:after {
@@ -64,7 +64,6 @@ Event Search Form
 ******************************************/
 .event-form {
   border-radius: 5px;
-  background-color: #f2f2f2;
   padding: 20px;
   width: 30%;
   text-align: center;
@@ -80,7 +79,7 @@ Event Search Form
     float: right;
     width: 50%;
     padding: 10px;
-    border: 1px solid #ccc;
+    border: 1px solid #B1A7A5;
     border-radius: 4px;
     resize: vertical;
     height: 20%;
@@ -93,14 +92,14 @@ Event Search Form
 
   }
 
-    .event-form input[type=text]:focus, textarea:focus {
-      border: 1px solid #555;
+    .event-form input[type=text]:focus, textarea:focus, select:focus {
+      border: 1px solid #EA3057;
       outline: none;
     }
 
   .event-form input[type=submit] {
-    background-color: #4CAF50;
-    color: white;
+    background-color: #5B5553;
+    color: #F4F5F6;
     padding: 12px 20px;
     border: none;
     border-radius: 4px;
@@ -108,7 +107,7 @@ Event Search Form
   }
 
     .event-form input[type=submit]:hover {
-      background-color: #45a049;
+      background-color: #B1A7A5;
     }
 
   .event-form label {
@@ -116,6 +115,7 @@ Event Search Form
     float: left;
     text-align: right;
     width: 160px;
+    color: #191919;
   }
 
   .event-form p:after {
@@ -129,7 +129,6 @@ Contact Form
 ******************************************/
 .contact-form {
   border-radius: 5px;
-  background-color: #f2f2f2;
   padding: 20px;
   width: 40%;
   text-align: center;
@@ -137,7 +136,6 @@ Contact Form
 }
 
   .contact-form p {
-    color: green;
     font-size: 20px;
   }
 
@@ -145,20 +143,20 @@ Contact Form
     float: right;
     width: 75%;
     padding: 10px;
-    border: 1px solid #ccc;
+    border: 1px solid #B1A7A5;
     border-radius: 4px;
     resize: vertical;
     height: 20%;
   }
 
     .contact-form input[type=text]:focus, textarea:focus {
-      border: 1px solid #555;
+      border: 1px solid #EA3057;
       outline: none;
     }
 
   .contact-form input[type=submit] {
-    background-color: #4CAF50;
-    color: white;
+    background-color: #5B5553;
+    color: #F4F5F6;
     padding: 12px 20px;
     border: none;
     border-radius: 4px;
@@ -166,7 +164,7 @@ Contact Form
   }
 
     .contact-form input[type=submit]:hover {
-      background-color: #45a049;
+      background-color: #B1A7A5;
     }
 
   .contact-form label {
@@ -174,6 +172,7 @@ Contact Form
     float: left;
     text-align: right;
     width: 100px;
+    color: #191919;
   }
 
   .contact-form p:after {
