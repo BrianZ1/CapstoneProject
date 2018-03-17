@@ -21,7 +21,7 @@ class ArticleExtractor:
     def __init__(self, name, game, bullet_points=5):
         self.player_name = name
         self.game_name = game
-        self.number_of_bullet_points = 5
+        self.number_of_bullet_points = bullet_points
         self.include_gamepedia = True
         #print("Looking up articles for player: " + self.player_name)
 
