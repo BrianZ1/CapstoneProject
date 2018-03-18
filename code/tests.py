@@ -17,20 +17,7 @@ from timeit import default_timer as timer # Timer
 '''
 
 if __name__ == '__main__':
-    article_extractor = articles.ArticleExtractor('doublelift', 'league of legends', 8)
 
-    sites = article_extractor.get_websites()
-    pool = Pool(cpu_count() * 2)
-    sources = pool.map(article_extractor.parse_websites, sites)
-    pool.close()
-    pool.join()
-    
-    article_summarizer = summarization.Summarization(article_extractor.number_of_bullet_points)
-    
-    summary = article_summarizer.summarize_text(sources)
-    
-    for sentence in summary:
-        print(u'\u2022 ' + sentence.lstrip("[]1234567890',.\" "))
 
 #    os.system('PAUSE')
 def EventExtractorParralleismTest():
@@ -77,6 +64,22 @@ def EventExtractorParralleismTest():
             for sentence in sorted_team_player_list[team][player]:
                 print(u'\u2022 ' + sentence.lstrip("[]1234567890',.\" "))
                 print('\n')
+                
+def WordProbabilityParrallelismTest():
+    article_extractor = articles.ArticleExtractor('doublelift', 'league of legends', 8)
+
+    sites = article_extractor.get_websites()
+    pool = Pool(cpu_count() * 2)
+    sources = pool.map(article_extractor.parse_websites, sites)
+    pool.close()
+    pool.join()
+    
+    article_summarizer = summarization.Summarization(article_extractor.number_of_bullet_points)
+    
+    summary = article_summarizer.summarize_text(sources)
+    
+    for sentence in summary:
+        print(u'\u2022 ' + sentence.lstrip("[]1234567890',.\" "))
                 
 def WordProbabilityTest():
     sites = ["https://www.theplayerstribune.com/doublelift-league-of-legends-everyone-else-is-trash/"]
