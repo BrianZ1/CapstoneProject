@@ -1,5 +1,5 @@
 import nltk_opperations
-import pickle
+from pickle import load, dumb
 import nltk
 
 '''
@@ -48,14 +48,18 @@ class NaiveBayesClassifier():
 *******************************************************'''    
 def save_classifier(classifier):
     save_classifier = open("naivebayes.pickle","wb")
-    pickle.dump(classifier, save_classifier)
+    dump(classifier, save_classifier)
     save_classifier.close()
     
 def load_classifier():
     classifier_f = open("naivebayes.pickle", "rb")
-    classifier = pickle.load(classifier_f)
+    classifier = load(classifier_f)
     classifier_f.close()
     return classifier   
+
+def get_dataset():
+    stories = load(open('cnn_dataset.pkl', 'rb'))
+    return stories
 
 def get_labels():
     return ['yes', 'no']
