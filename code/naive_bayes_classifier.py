@@ -1,5 +1,5 @@
 import nltk_opperations
-from pickle import load, dumb
+from pickle import load, dump
 import nltk
 
 '''
@@ -72,7 +72,7 @@ def get_features(sentence):
     return features
 
 def read_dataset():
-    labeled_articles = []
+    labeled_articles = [('h','yes')]
     
     return labeled_articles
 
