@@ -3,3 +3,5 @@ commands
 secret_key.txt
 .vs
 .google-cookie
+cnn_stories
+cnn_dataset
