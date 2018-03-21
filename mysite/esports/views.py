@@ -64,12 +64,12 @@ def eventResults(request, name):
         event_name = request.session.get('event_name', None)
         game = request.session.get('game', None)
         
-        #event_extractor = articles.EventSeperator(event_name, game)
+        event_extractor = articles.EventSeperator(event_name, game)
 
-        #site = event_extractor.get_website();
-        #sorted_team_player_list, player_list = event_extractor.get_player_team_names(site)
+        site = event_extractor.get_website();
+        sorted_team_player_list, player_list = event_extractor.get_player_team_names(site)
         
-        sorted_team_player_list = stpl
+        #sorted_team_player_list = stpl
         
         request.session['sorted_team_player_list'] = sorted_team_player_list
     
@@ -102,10 +102,7 @@ def eventInformation(request):
     
     player_name = request.GET.get('player', None)
     game = request.session.get('game', None)
-    #summary = main.player_search(player_name, game, 5)
-    
-    summary = "Hi"
-
+    summary = main.player_search(player_name, game, 5)
     context = { 'summary': summary }
     
     return render(request, 'esports/information.html', context)

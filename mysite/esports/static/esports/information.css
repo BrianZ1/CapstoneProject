@@ -12,10 +12,12 @@ Player Search Results
   .player-info h3 {
     text-align: center;
     color: #191919;
+    font-size: 24px;
   }
 
   .player-info ul li {
-    color: #EA3057;
+    color: #545462;
+    font-size: 20px;
   }
 
 /*****************************************
@@ -35,6 +37,7 @@ Event Search Results
   .event-info h3 {
     text-align: center;
     color: #191919;
+    font-size: 24px;
   }
   
   .event-info ul {
@@ -43,4 +46,5 @@ Event Search Results
 
   .event-info ul li {
     color: #EA3057;
+    font-size: 20px;
   }

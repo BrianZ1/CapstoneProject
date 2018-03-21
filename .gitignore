@@ -5,3 +5,6 @@ secret_key.txt
 .google-cookie
 cnn_stories
 cnn_dataset
+code/labeled_cnn_dataset.pkl
+*.pkl
+*.pickle
