@@ -30,10 +30,7 @@ class ArticleExtractor:
     '''
     def get_websites(self):
         sites = []
-        for site in googlesearch.search(self.player_name + self.game_name, tld="com", lang='en', num=1, start=0, stop=1, pause=2):
-            if len(site) == 5:
-                break;
-            
+        for site in googlesearch.search(self.player_name + self.game_name, tld="com", lang='en', num=10, start=0, stop=10, pause=2):            
             if '#' in site or 'youtube' in site or 'twitter' in site or 'facebook' in site or 'urbandictionary' in site:
                 continue
                 
@@ -47,6 +44,7 @@ class ArticleExtractor:
                     
 #                print("Adding site: " + site)
                 sites.append(site)
+                
         return sites
 
     '''
