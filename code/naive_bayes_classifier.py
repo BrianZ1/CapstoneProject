@@ -30,15 +30,9 @@ class NaiveBayesClassifier():
         
         sentence_tokens = nltk_opperations.sent_tokenize(text)
  
-        for i, sentence in enumerate(sentence_tokens):
+        for sentence in sentence_tokens:
             distribution = self.clasifier.prob_classify(get_features(sentence))
             sentence_dict[sentence] = distribution.prob("yes")
-            
-            if i == 0:
-                print("Sentence: " + sentence)
-                print("Probability of 'Yes': " + str(distribution.prob("yes")))
-                print("Probability of 'No': " + str(distribution.prob("no")))
-                print("\n")
                 
         return sentence_dict
 
@@ -142,7 +136,7 @@ def main():
     labeled_articles = load_labeled_dataset()
     #random.shuffle(labeled_articles)
     featuresets = [(get_features(sentence), label) for (sentence, label) in labeled_articles]
-    train_set, test_set = featuresets[500:], featuresets[:500]
+    train_set, test_set = featuresets[40000:], featuresets[:20000]
     classifier = nltk.NaiveBayesClassifier.train(train_set)
     #print(train_set)
     #print(nltk.classify.accuracy(classifier, test_set))
