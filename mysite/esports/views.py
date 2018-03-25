@@ -10,8 +10,6 @@ import sys
 sys.path.append(r'..\code')
 import main, articles, summarization
 
-from .text import sorted_team_player_list as stpl
-
 def home(request):
     request.session.flush()
     return render(request, 'esports/home.html')
@@ -68,9 +66,7 @@ def eventResults(request, name):
 
         site = event_extractor.get_website();
         sorted_team_player_list, player_list = event_extractor.get_player_team_names(site)
-        
-        #sorted_team_player_list = stpl
-        
+              
         request.session['sorted_team_player_list'] = sorted_team_player_list
     
         context = {'event_name': event_name,
