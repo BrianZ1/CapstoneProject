@@ -32,7 +32,7 @@ class ArticleExtractor:
         sites = []
         for site in googlesearch.search(self.player_name + self.game_name + "player article",
                                         tld="com", lang='en', num=1,
-                                        start=0, stop=10, pause=2):            
+                                        start=0, stop=1, pause=2):            
             if ('#' in site or 'youtube' in site 
                 or 'twitter' in site or 'facebook' in site 
                 or 'urbandictionary' in site

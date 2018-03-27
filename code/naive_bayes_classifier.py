@@ -2,6 +2,7 @@ import nltk_opperations
 from pickle import load, dump
 import nltk
 from PyRouge.pyrouge import Rouge
+import string
 
 '''
 Text summarization using a naive bayes classifier
@@ -46,35 +47,17 @@ class NaiveBayesClassifier():
                 Needed for both
 *******************************************************'''   
 def get_features(sentence, article):
-    #print(list_to_string(article['story']))
     features = {}
-#    capitals = 0
-#    numbers = 0
-#    stop_words = 0
-#    adjectives = 0
     
+    word_tokens = nltk_opperations.get_word_tokens(sentence)
+    stop_words_list = nltk_opperations.get_stopwords()
+    
+    word_list = [word.lower() for word in word_tokens 
+                 if word not in stop_words_list 
+                 and word not in string.punctuation]
+        
     features['sentence_length'] = len(sentence)
-    
-#    word_token_text = nltk_opperations.get_word_tokens(sentence)
-#    stop_words_list = nltk_opperations.get_stopwords()
-#    
-#    for word in word_token_text:
-#        if word[0].isupper():
-#            capitals += 1
-#            
-#        if word.isdigit():
-#            numbers += 1
-#            
-#        if word.lower() in stop_words_list:
-#            stop_words += 1
-#            
-#        if nltk.pos_tag([word])[0][1]:
-#            adjectives += 1
-#        
-#    features['capital_words'] = capitals
-#    features['numbers'] = numbers
-#    features['stop_words'] = stop_words
-#    features['adjectives'] = adjectives
+    features['num_words'] = len(word_list)
 
     return features
     
@@ -135,19 +118,33 @@ def read_dataset():
         dataset[i] = labeled_articles
         
     return dataset
+
+def clean_article(article):
+    stop_words_list = nltk_opperations.get_stopwords()
+    story = article['story']
+    clean_article = []
+    for sent in story:
+        word_token_text = nltk_opperations.get_word_tokens(sent)
+        for word in word_token_text:
+            if word not in stop_words_list and word not in string.punctuation:
+                clean_article.append(word.lower())
+    
+    return clean_article
     
 def main():
     labeled_articles = load_labeled_dataset()
     full_articles = get_dataset()
-    featuresets = [(get_features(sentence, full_articles[article]), label)
-                    for article in labeled_articles 
-                    for (sentence, label) in labeled_articles[article]]
-    train_set, test_set = featuresets[5000:], featuresets[:5000]
+#    featuresets = [(get_features(sentence, clean_article(full_articles[article])), label)
+#                    for article in labeled_articles 
+#                    for (sentence, label) in labeled_articles[article]]
+    featuresets = [(get_features(sentence, clean_article(full_articles[0])), label) for (sentence, label) in labeled_articles[0]]
+    train_set, test_set = featuresets, featuresets
     classifier = nltk.NaiveBayesClassifier.train(train_set)
     
     #classifier.train(train_set)
     #print(train_set)
     print(nltk.classify.accuracy(classifier, test_set))
+    print(classifier.show_most_informative_features())
     #save_classifier(classifier)         
  
 main()
