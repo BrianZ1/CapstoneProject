@@ -13,14 +13,13 @@ from multiprocessing import cpu_count
 
 def player_search(query, game, bullets):
     article_extractor = articles.ArticleExtractor(query, game, bullets)
+    article_summarizer = summarization.Summarization(article_extractor.number_of_bullet_points)
 
     sites = article_extractor.get_websites()
     pool = Pool(cpu_count() * 2)
     sources = pool.map(article_extractor.parse_websites, sites)
     pool.close()
-    pool.join()
-    
-    article_summarizer = summarization.Summarization(article_extractor.number_of_bullet_points)
+    pool.join()  
     
     summary = article_summarizer.summarize_text(sources)
     

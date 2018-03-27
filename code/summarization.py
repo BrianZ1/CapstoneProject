@@ -12,7 +12,7 @@ import word_probability as wp
 Convert the article from a list to a string
 '''
 def list_to_string(article):
-    return ''.join(str(text) for text in article)
+    return ' '.join(str(text) for text in article)
 
 def remove_punctuation(text):
     punctuation = set(string.punctuation)

@@ -45,7 +45,8 @@ class NaiveBayesClassifier():
 '''*******************************************************
                 Needed for both
 *******************************************************'''   
-def get_features(sentence):
+def get_features(sentence, article):
+    #print(list_to_string(article['story']))
     features = {}
 #    capitals = 0
 #    numbers = 0
@@ -78,7 +79,7 @@ def get_features(sentence):
     return features
     
 def list_to_string(article):
-    return ''.join(str(text) for text in article)
+    return ' '.join(str(text) for text in article)
 
 def load_classifier():
     classifier_f = open("naivebayes.pickle", "rb")
@@ -112,12 +113,13 @@ def load_labeled_dataset():
     return labeled_dataset
 
 def read_dataset():
-    labeled_articles = set()
+    dataset = {}
     r = Rouge()
     threshold = .70
     stories = get_dataset()
     
     for i in range(0, 2000):
+        labeled_articles = set()
         story = stories[i]['story']
         highlights = stories[i]['highlights']
         
@@ -129,17 +131,23 @@ def read_dataset():
                     labeled_articles.add((sent, 'yes'))
                 else:
                     labeled_articles.add((sent, 'no'))
-    
-    return labeled_articles
+
+        dataset[i] = labeled_articles
+        
+    return dataset
     
 def main():
     labeled_articles = load_labeled_dataset()
-    #random.shuffle(labeled_articles)
-    featuresets = [(get_features(sentence), label) for (sentence, label) in labeled_articles]
-    train_set, test_set = featuresets[40000:], featuresets[:20000]
+    full_articles = get_dataset()
+    featuresets = [(get_features(sentence, full_articles[article]), label)
+                    for article in labeled_articles 
+                    for (sentence, label) in labeled_articles[article]]
+    train_set, test_set = featuresets[5000:], featuresets[:5000]
     classifier = nltk.NaiveBayesClassifier.train(train_set)
+    
+    #classifier.train(train_set)
     #print(train_set)
-    #print(nltk.classify.accuracy(classifier, test_set))
+    print(nltk.classify.accuracy(classifier, test_set))
     #save_classifier(classifier)         
  
-#main()
+main()

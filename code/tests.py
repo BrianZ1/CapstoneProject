@@ -10,6 +10,7 @@ from multiprocessing import Pool # Multiprocessing
 from multiprocessing import cpu_count
 import os
 from timeit import default_timer as timer # Timer
+import main
 '''
         start = timer()
         end = timer()
@@ -18,6 +19,13 @@ from timeit import default_timer as timer # Timer
 from naive_bayes_classifier import NaiveBayesClassifier
 
 if __name__ == '__main__':
+    summary = main.player_search('doublelift', 'league of legends', 5)
+
+    for sentence in summary:
+        print(u'\u2022 ' + sentence.lstrip("[]1234567890',.\" ")) 
+    print('\n')
+
+def NBCTest():        
     nbc = NaiveBayesClassifier()
     
     sites = ["https://www.theplayerstribune.com/doublelift-league-of-legends-everyone-else-is-trash/"]
@@ -33,9 +41,8 @@ if __name__ == '__main__':
     
     print("Summary:")
     for sentence in summary:
-        print(u'\u2022 ' + sentence.lstrip("[]1234567890',.\" "))
+        print(u'\u2022 ' + sentence.lstrip("[]1234567890',.\" ")) 
 
-#    os.system('PAUSE')
 def EventExtractorParralleismTest():
     event_extractor = articles.EventSeperator('IEM Season 11 - Gyeonggi', 'league of legends')
     article_summarizer = summarization.Summarization(5)

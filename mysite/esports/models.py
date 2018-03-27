@@ -8,3 +8,11 @@ class Comment(models.Model):
     
     def __str__(self):
         return self.name
+    
+class Player(models.Model):
+    name = models.CharField(max_length=50, unique=True)
+    count = models.IntegerField()
+    
+class Event(models.Model):
+    name = models.CharField(max_length=50, unique=True)
+    count = models.IntegerField()
