@@ -32,7 +32,7 @@ class NaiveBayesClassifier():
         sentence_tokens = nltk_opperations.sent_tokenize(text)
  
         for sentence in sentence_tokens:
-            distribution = self.clasifier.prob_classify(get_features(sentence))
+            distribution = self.clasifier.prob_classify(get_features(sentence, clean_article_sites(text)))
             sentence_dict[sentence] = distribution.prob("yes")
                 
         return sentence_dict
@@ -48,16 +48,45 @@ class NaiveBayesClassifier():
 *******************************************************'''   
 def get_features(sentence, article):
     features = {}
+    captial_count = 0
+    word_frequency = 0
+    number_count = 0
+    adjective_count = 0
     
     word_tokens = nltk_opperations.get_word_tokens(sentence)
     stop_words_list = nltk_opperations.get_stopwords()
     
-    word_list = [word.lower() for word in word_tokens 
+    word_list = [word for word in word_tokens 
                  if word not in stop_words_list 
                  and word not in string.punctuation]
-        
+    
+    set(word_list)
+    set(article)
+    
     features['sentence_length'] = len(sentence)
     features['num_words'] = len(word_list)
+    
+    for word in word_list:
+        
+        if word.isupper():
+            captial_count += 1
+            
+        if word.isnumeric():
+            number_count += 1
+            
+        if nltk_opperations.get_pos_tag(word) == 'JJ':
+            adjective_count += 1
+            
+        word_frequency += nltk_opperations.get_word_frequency(article, word)
+            
+    features['capital_words'] = captial_count
+    features['numbers'] = number_count
+    features['adjective_count'] = adjective_count
+    
+    try:
+        features['word_freq'] = word_frequency / len(word_list)
+    except:
+        features['word_freq'] = 0
 
     return features
     
@@ -69,6 +98,19 @@ def load_classifier():
     classifier = load(classifier_f)
     classifier_f.close()
     return classifier  
+
+def clean_article_sites(article):
+    stop_words_list = nltk_opperations.get_stopwords()
+    sentence_token_text = nltk_opperations.get_sentance_tokens(article)
+
+    clean_article = []
+    for sent in sentence_token_text:
+        word_token_text = nltk_opperations.get_word_tokens(sent)
+        for word in word_token_text:
+            if word not in stop_words_list and word not in string.punctuation:
+                clean_article.append(word.lower())
+    
+    return clean_article
    
 '''*******************************************************
                 Training the classifier
@@ -131,20 +173,19 @@ def clean_article(article):
     
     return clean_article
     
-def main():
-    labeled_articles = load_labeled_dataset()
-    full_articles = get_dataset()
-#    featuresets = [(get_features(sentence, clean_article(full_articles[article])), label)
-#                    for article in labeled_articles 
-#                    for (sentence, label) in labeled_articles[article]]
-    featuresets = [(get_features(sentence, clean_article(full_articles[0])), label) for (sentence, label) in labeled_articles[0]]
-    train_set, test_set = featuresets, featuresets
-    classifier = nltk.NaiveBayesClassifier.train(train_set)
-    
-    #classifier.train(train_set)
-    #print(train_set)
-    print(nltk.classify.accuracy(classifier, test_set))
-    print(classifier.show_most_informative_features())
+#def main():
+    #labeled_articles = load_labeled_dataset()
+    #full_articles = get_dataset()
+    #featuresets = [(get_features(sentence, clean_article(full_articles[article])), label)
+    #                for article in labeled_articles 
+    #                for (sentence, label) in labeled_articles[article]]
+    #featuresets = [(get_features(sentence, clean_article(full_articles[0])), label) for (sentence, label) in labeled_articles[0]]
+    #train_set, test_set = featuresets, featuresets
+    #classifier = nltk.NaiveBayesClassifier.train(train_set)
+    #
+    ##print(train_set)
+    #print(nltk.classify.accuracy(classifier, test_set))
+    #print(classifier.show_most_informative_features(30))
     #save_classifier(classifier)         
  
-main()
+#main()

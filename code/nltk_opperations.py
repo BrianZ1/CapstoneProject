@@ -5,7 +5,7 @@ Created on Sun Jan 21 16:09:00 2018
 @author: brian
 """
 
-from nltk import Text, FreqDist, SnowballStemmer
+from nltk import Text, FreqDist, SnowballStemmer, pos_tag
 
 from nltk.tokenize import sent_tokenize, word_tokenize
 from nltk.corpus import stopwords
@@ -33,3 +33,6 @@ def get_stopwords():
 def get_stemmed_words(text):
     porter = SnowballStemmer("english")
     return [porter.stem(t) for t in text]
+
+def get_pos_tag(word):
+    return pos_tag([word])[0][1]
