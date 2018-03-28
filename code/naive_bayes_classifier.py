@@ -20,7 +20,7 @@ class NaiveBayesClassifier():
     '''
     def get_summary(self, text, summary_length):
         sentence_dict = self.calculate_sentence_score(text)
-        return self.choose_best_sentences(sentence_dict) 
+        return self.choose_best_sentences(sentence_dict)[:summary_length]
     
     '''
     Gives a score to each sentence in a text
@@ -41,7 +41,7 @@ class NaiveBayesClassifier():
     Chooses the best scoring sentences for the summary
     '''
     def choose_best_sentences(self, sentence_dict):
-        return sorted(sentence_dict, key=sentence_dict.get, reverse=True)[:5]
+        return sorted(sentence_dict, key=sentence_dict.get, reverse=True)
     
 '''*******************************************************
                 Needed for both
@@ -94,7 +94,7 @@ def list_to_string(article):
     return ' '.join(str(text) for text in article)
 
 def load_classifier():
-    classifier_f = open("naivebayes.pickle", "rb")
+    classifier_f = open("../code/naivebayes.pickle", "rb")
     classifier = load(classifier_f)
     classifier_f.close()
     return classifier  
@@ -173,19 +173,16 @@ def clean_article(article):
     
     return clean_article
     
-#def main():
-    #labeled_articles = load_labeled_dataset()
-    #full_articles = get_dataset()
-    #featuresets = [(get_features(sentence, clean_article(full_articles[article])), label)
-    #                for article in labeled_articles 
-    #                for (sentence, label) in labeled_articles[article]]
-    #featuresets = [(get_features(sentence, clean_article(full_articles[0])), label) for (sentence, label) in labeled_articles[0]]
-    #train_set, test_set = featuresets, featuresets
-    #classifier = nltk.NaiveBayesClassifier.train(train_set)
-    #
-    ##print(train_set)
-    #print(nltk.classify.accuracy(classifier, test_set))
-    #print(classifier.show_most_informative_features(30))
-    #save_classifier(classifier)         
- 
-#main()
+def train():
+    labeled_articles = load_labeled_dataset()
+    full_articles = get_dataset()
+    featuresets = [(get_features(sentence, clean_article(full_articles[article])), label)
+                    for article in labeled_articles 
+                    for (sentence, label) in labeled_articles[article]]
+    featuresets = [(get_features(sentence, clean_article(full_articles[0])), label) for (sentence, label) in labeled_articles[0]]
+    train_set, test_set = featuresets, featuresets
+    classifier = nltk.NaiveBayesClassifier.train(train_set)
+
+    print(nltk.classify.accuracy(classifier, test_set))
+    print(classifier.show_most_informative_features())
+    save_classifier(classifier)         

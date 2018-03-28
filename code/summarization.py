@@ -6,7 +6,8 @@ Created on Wed Jan 17 19:30:20 2018
 """
 
 import string
-import word_probability as wp
+from word_probability import WordProbability
+from naive_bayes_classifier import NaiveBayesClassifier
 
 '''
 Convert the article from a list to a string
@@ -38,8 +39,9 @@ class Summarization:
         string_text = string_text.replace('", "', ' ')
     
         if(len(string_text) < 1):
-            return "Not enought information about player"
+            return ["Not enought information about player"]
         
-        summary_methods = wp.WordProbability()
+        #summary_methods = WordProbability()
+        summary_methods = NaiveBayesClassifier()
     
         return summary_methods.get_summary(string_text, self.summary_length)
