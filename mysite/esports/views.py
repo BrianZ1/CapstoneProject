@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.http import JsonResponse
 
 from .forms import PlayerSearchForm, EventSearchForm, ContactForm
-from .models import Comment
+from .models import Comment, Player, Event
 
 import sys
 sys.path.append(r'..\code')
@@ -19,11 +19,21 @@ def playerSearch(request):
         form = PlayerSearchForm(request.POST)
         
         if form.is_valid():
-          request.session['player_name'] = form.cleaned_data['player_name']
-          request.session['game'] = form.cleaned_data['game']
-          request.session['num_bullet'] = form.cleaned_data['num_bullet']
+            request.session['player_name'] = form.cleaned_data['player_name']
+            request.session['game'] = form.cleaned_data['game']
+            request.session['num_bullet'] = form.cleaned_data['num_bullet']
+  
+            check_player = Player.objects.filter(name=form.cleaned_data['player_name'])
+            
+            if len(check_player) == 0:
+                new_player = Player(name=form.cleaned_data['player_name'], count = 1)
+                new_player.save()
+            else:
+                player = Player.objects.get(name=form.cleaned_data['player_name'])
+                player.increment_count()
+                player.save()
           
-          return HttpResponseRedirect('/esports/playersearch/' + request.session.get('player_name', None))
+            return HttpResponseRedirect('/esports/playersearch/' + request.session.get('player_name', None))
     else:
         form = PlayerSearchForm()
 
@@ -48,10 +58,20 @@ def eventSearch(request):
         form = EventSearchForm(request.POST)
         
         if form.is_valid():
-          request.session['event_name'] = form.cleaned_data['event_name']
-          request.session['game'] = form.cleaned_data['game']
+            request.session['event_name'] = form.cleaned_data['event_name']
+            request.session['game'] = form.cleaned_data['game']
+                      
+            check_event = Event.objects.filter(name=form.cleaned_data['event_name'])
+            
+            if len(check_event) == 0:
+                new_event = Event(name=form.cleaned_data['event_name'], count = 1)
+                new_event.save()
+            else:
+                event = Event.objects.get(name=form.cleaned_data['event_name'])
+                event.increment_count()
+                event.save()
           
-          return HttpResponseRedirect('/esports/eventsearch/' + request.session.get('event_name', None))
+            return HttpResponseRedirect('/esports/eventsearch/' + request.session.get('event_name', None))
     else:
         form = EventSearchForm()
         

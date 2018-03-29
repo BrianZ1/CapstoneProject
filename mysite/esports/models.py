@@ -13,6 +13,12 @@ class Player(models.Model):
     name = models.CharField(max_length=50, unique=True)
     count = models.IntegerField()
     
+    def increment_count(self):
+        self.count += 1
+    
 class Event(models.Model):
     name = models.CharField(max_length=50, unique=True)
     count = models.IntegerField()
+    
+    def increment_count(self):
+        self.count += 1
