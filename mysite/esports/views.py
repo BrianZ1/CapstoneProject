@@ -12,7 +12,16 @@ import main, articles, summarization
 
 def home(request):
     request.session.flush()
-    return render(request, 'esports/home.html')
+    
+    context = {
+            'player_list': get_top_5_item_searches(Player),
+            'event_list': get_top_5_item_searches(Event),
+            }
+    
+    return render(request, 'esports/home.html', context)
+
+def get_top_5_item_searches(database):
+    return database.objects.order_by('-count')[:5]
 
 def playerSearch(request):    
     if request.method == 'POST':
