@@ -6,7 +6,8 @@ from .models import Comment
 GAME_CHOICE = [
     ('', 'Select Game'),
     ('league of legends', 'Leauge of Legends'),
-        ]
+    ('counter-strike: global offensive', 'Counter-Strike: Global Offensive')
+            ]
 
 class PlayerSearchForm(forms.Form):
     player_name = forms.CharField(label='Player Name', max_length=100,
@@ -28,7 +29,7 @@ class ContactForm(ModelForm):
         fields = ['name', 'email', 'comment']
 
         widgets = {
-						'name':forms.TextInput(attrs={'placeholder': 'Enter Your Name...'}),
+			  'name':forms.TextInput(attrs={'placeholder': 'Enter Your Name...'}),
             'email': forms.TextInput(attrs={'placeholder': 'Enter Your Email... (Not Required)'}),
-						'comment': forms.Textarea(attrs={'placeholder': 'Enter Your Comment...', 'rows':4, 'cols':15}),
+			  'comment': forms.Textarea(attrs={'placeholder': 'Enter Your Comment...', 'rows':4, 'cols':15}),
         }

@@ -18,22 +18,28 @@ class NaiveBayesClassifier():
     '''
     Main function to get summary
     '''
-    def get_summary(self, text, summary_length):
-        sentence_dict = self.calculate_sentence_score(text)
+    def get_summary(self, articles, summary_length):
+        sentence_dict = self.calculate_sentence_score(articles)
         return self.choose_best_sentences(sentence_dict)[:summary_length]
     
     '''
     Gives a score to each sentence in a text
     Use the classifer
     '''
-    def calculate_sentence_score(self, text):
+    def calculate_sentence_score(self, articles):
         sentence_dict = {}
         
-        sentence_tokens = nltk_opperations.sent_tokenize(text)
- 
-        for sentence in sentence_tokens:
-            distribution = self.clasifier.prob_classify(get_features(sentence, clean_article_sites(text)))
-            sentence_dict[sentence] = distribution.prob("yes")
+        for article in articles:
+            string_text = list_to_string(article)
+            string_text = string_text.replace("', '", ' ')
+            string_text = string_text.replace('", "', ' ')
+            
+            sentence_tokens = nltk_opperations.sent_tokenize(string_text)
+            clean_article = clean_article_sites(string_text)
+            
+            for sentence in sentence_tokens:   
+                distribution = self.clasifier.prob_classify(get_features(sentence, clean_article))
+                sentence_dict[sentence] = distribution.prob("yes")
                 
         return sentence_dict
 

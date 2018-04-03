@@ -33,15 +33,11 @@ class Summarization:
         end = timer()
         print(end - start)
     '''
-    def summarize_text(self, article):
-        string_text = list_to_string(article)
-        string_text = string_text.replace("', '", ' ')
-        string_text = string_text.replace('", "', ' ')
-    
-        if(len(string_text) < 1):
+    def summarize_text(self, articles):   
+        if(len(articles) < 1):
             return ["Not enought information about player"]
         
         #summary_methods = WordProbability()
         summary_methods = NaiveBayesClassifier()
     
-        return summary_methods.get_summary(string_text, self.summary_length)
+        return summary_methods.get_summary(articles, self.summary_length)

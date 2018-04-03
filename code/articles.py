@@ -22,33 +22,17 @@ class ArticleExtractor:
         self.player_name = name
         self.game_name = game
         self.number_of_bullet_points = bullet_points
-        self.include_gamepedia = True
         #print("Looking up articles for player: " + self.player_name)
 
     '''
     Uses google api to get a list of sites
     '''
     def get_websites(self):
-        sites = []
-        for site in googlesearch.search(self.player_name + self.game_name + "player article",
-                                        tld="com", lang='en', num=1,
-                                        start=0, stop=1, pause=2):            
-            if ('#' in site or 'youtube' in site 
-                or 'twitter' in site or 'facebook' in site 
-                or 'urbandictionary' in site
-                or 'reddit' in site):
-                continue
-                
-            if self.include_gamepedia is False and 'gamepedia' in site:
-                continue
-
-            if 'gamepedia' in site:
-                self.include_gamepedia = False
-
-            if "com" in site:
-                sites.append(site)
-                
-        return sites
+        return [site for site in 
+                googlesearch.search(
+                        self.player_name + " \"" + self.game_name + "\"" + " player articles",
+                                        num=10, stop=10, tpe='nws',
+                                        only_standard=True)]
 
     '''
     Uses beautiful soup to parse given url.
@@ -63,7 +47,7 @@ class ArticleExtractor:
             for p in soup.find_all('p'):
                 paragraph.append(p.text.strip())
         except:
-            paragraph.append("")
+            paragraph.append(" ")
 
         return paragraph
 
