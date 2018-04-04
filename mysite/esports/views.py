@@ -132,6 +132,9 @@ def eventInformation(request):
     
     return render(request, 'esports/information.html', context)
 
+def about(request):
+    return render(request, 'esports/about.html')
+
 def contact(request):
     if request.method == 'POST':
         form = ContactForm(request.POST)

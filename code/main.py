@@ -21,7 +21,7 @@ def player_search(query, game, bullets):
     pool.close()
     pool.join()  
     
-    summary = article_summarizer.summarize_text(sources)
+    summary = article_summarizer.summarize_text(sites, sources)
     
     return summary
 

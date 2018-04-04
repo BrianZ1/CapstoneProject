@@ -30,8 +30,8 @@ class ArticleExtractor:
     def get_websites(self):
         return [site for site in 
                 googlesearch.search(
-                        self.player_name + " \"" + self.game_name + "\"" + " player articles",
-                                        num=10, stop=10, tpe='nws',
+                        " \" " + self.player_name + " \"\" " + self.game_name + " \" " + " player articles",
+                                        num=2, stop=2, tpe='nws',
                                         only_standard=True)]
 
     '''
@@ -44,7 +44,12 @@ class ArticleExtractor:
             html = request.urlopen(url).read().decode('utf8')
             soup = BeautifulSoup(html, "lxml")
 
+            for br in soup.find_all("br"):
+                br.replace_with(" ")
+                
             for p in soup.find_all('p'):
+                if "Sort comment" in p.text or "PRIVACY POLICY" in p.text or "cookies" in p.text:
+                    continue
                 paragraph.append(p.text.strip())
         except:
             paragraph.append(" ")

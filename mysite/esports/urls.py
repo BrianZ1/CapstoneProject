@@ -11,6 +11,7 @@ urlpatterns = [
     path('eventsearch/<str:name>/', views.eventResults, name='eventresults'),
     path('eventsearch/<str:name>/<str:team>', views.eventResultsTeam, name='eventresultsteam'),
     url(r'^ajax/eventinformation/$', views.eventInformation, name='eventinformation'),
+    path('about/', views.about, name='about'),
     path('contact/', views.contact, name='contact'),      
     
 ]

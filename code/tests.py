@@ -19,11 +19,13 @@ import main
 from naive_bayes_classifier import NaiveBayesClassifier
 
 if __name__ == '__main__':
-    summary = main.player_search('rush', 'counter-strike: global offensive', 5)
+    summary = main.player_search('doublelift', 'league of legends', 5)
 
-    for sentence in summary:
-        print(u'\u2022 ' + sentence.lstrip("[]1234567890',.\" ")) 
-    print('\n')
+    for article in summary:
+        print(article)
+        for sentence in summary[article]:
+            print(u'\u2022 ' + sentence.lstrip("[]1234567890',.\" ")) 
+        print('\n')
 
 def NBCTest():        
     nbc = NaiveBayesClassifier()

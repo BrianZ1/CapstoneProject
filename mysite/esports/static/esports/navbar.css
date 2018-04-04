@@ -16,10 +16,14 @@ Main Navigation Links
 
   .navbar li:last-child {
     float: right;
-    border-left: 1px solid #B1A7A5;
+    border-left: none;
+  }
+  
+  .navbar li:nth-last-child(2) {
+    float: right;
   }
 
-  .navbar li:nth-last-child(2) {
+  .navbar li:nth-last-child(3) {
     border-right: none;
   }
 

@@ -15,8 +15,11 @@
 <div class="player-info">
   <h3>{{ player_name }}</h3>
   <ul>
-    {% for sentence in summary %}
-    <li>{{ sentence|lstrip }} </li>
+    {% for article in summary %}
+    <a href={{article}} target="_blank"> <h2> {{article}} </h2> </a>
+      {% for sentence in summary|get_dict_item:article %}
+      <li>{{ sentence|lstrip }} </li>
+      {% endfor %}
     {% endfor %}
   </ul>
 </div>

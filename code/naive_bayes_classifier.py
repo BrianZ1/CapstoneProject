@@ -18,18 +18,19 @@ class NaiveBayesClassifier():
     '''
     Main function to get summary
     '''
-    def get_summary(self, articles, summary_length):
-        sentence_dict = self.calculate_sentence_score(articles)
-        return self.choose_best_sentences(sentence_dict)[:summary_length]
+    def get_summary(self, sites, articles, summary_length):
+        articles_dict = self.calculate_sentence_score(sites, articles)
+        return self.choose_best_sentences(articles_dict, summary_length)
     
     '''
     Gives a score to each sentence in a text
     Use the classifer
     '''
-    def calculate_sentence_score(self, articles):
-        sentence_dict = {}
+    def calculate_sentence_score(self, sites, articles):
+        article_dict = {}
         
-        for article in articles:
+        for i, article in enumerate(articles):
+            sentence_dict = {}
             string_text = list_to_string(article)
             string_text = string_text.replace("', '", ' ')
             string_text = string_text.replace('", "', ' ')
@@ -40,14 +41,19 @@ class NaiveBayesClassifier():
             for sentence in sentence_tokens:   
                 distribution = self.clasifier.prob_classify(get_features(sentence, clean_article))
                 sentence_dict[sentence] = distribution.prob("yes")
-                
-        return sentence_dict
+            
+            article_dict[sites[i]] = sentence_dict
+            
+        return article_dict
 
     '''
     Chooses the best scoring sentences for the summary
     '''
-    def choose_best_sentences(self, sentence_dict):
-        return sorted(sentence_dict, key=sentence_dict.get, reverse=True)
+    def choose_best_sentences(self, articles_dict, summary_length):
+        for sentence_dict in articles_dict:
+            articles_dict[sentence_dict] = sorted(articles_dict[sentence_dict], key=articles_dict[sentence_dict].get, reverse=True)[:summary_length]
+        
+        return articles_dict
     
 '''*******************************************************
                 Needed for both
