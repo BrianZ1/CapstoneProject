@@ -1,0 +1,4 @@
+google==2.0.1
+nltk==3.2.5
+Django==2.0.2
+beautifulsoup4==4.6.0
