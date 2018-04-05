@@ -10,7 +10,6 @@ from multiprocessing import Pool # Multiprocessing
 from multiprocessing import cpu_count
 import os
 from timeit import default_timer as timer # Timer
-import main
 '''
         start = timer()
         end = timer()
@@ -18,14 +17,15 @@ import main
 '''
 from naive_bayes_classifier import NaiveBayesClassifier
 
-if __name__ == '__main__':
-    summary = main.player_search('doublelift', 'league of legends', 5)
-
-    for article in summary:
-        print(article)
-        for sentence in summary[article]:
-            print(u'\u2022 ' + sentence.lstrip("[]1234567890',.\" ")) 
-        print('\n')
+if __name__ == '__main__':    
+#    event_extractor = articles.EventSeperator('2017 World Championship', 'league of legends')
+#    site = event_extractor.get_website();
+#    sorted_team_player_list = event_extractor.get_player_team_names(site)
+#    for team in sorted_team_player_list:
+#        print(team)
+#        print(sorted_team_player_list[team])
+##        for player in sorted_team_player_list[team]:
+##            print(player)
 
 def NBCTest():        
     nbc = NaiveBayesClassifier()

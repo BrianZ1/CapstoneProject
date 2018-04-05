@@ -51,6 +51,7 @@ Event Search Nav Links
 .dropdown {
   float: left;
   overflow: hidden;
+  padding-bottom: 10px;
 }
   .dropdown a:hover {
     background-color: #B1A7A5;

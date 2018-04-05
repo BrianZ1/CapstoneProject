@@ -94,7 +94,7 @@ def eventResults(request, name):
         event_extractor = articles.EventSeperator(event_name, game)
 
         site = event_extractor.get_website();
-        sorted_team_player_list, player_list = event_extractor.get_player_team_names(site)
+        sorted_team_player_list = event_extractor.get_player_team_names(site)
               
         request.session['sorted_team_player_list'] = sorted_team_player_list
     
