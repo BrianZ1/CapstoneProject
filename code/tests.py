@@ -19,9 +19,9 @@ from main import player_search
 from naive_bayes_classifier import NaiveBayesClassifier
 
 if __name__ == '__main__':    
-    summary = player_search('doublelift', 'league of legends', 5)
-    print(summary)    
-
+    value = 'https://www.invenglobal.com/articles/4680/tl-doublelift-i-would-love-to-play-clutch-in-the-finals-because-they-are-the-worst-team-in-playoffs'
+    print(value.split('/')[-1].replace('-', ' ').title())
+   
 def NBCTest():        
     nbc = NaiveBayesClassifier()
     

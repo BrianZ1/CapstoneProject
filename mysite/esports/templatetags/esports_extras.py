@@ -15,3 +15,7 @@ def lower(value):
 @register.filter
 def get_dict_item(value, team):
     return value[team]
+
+@register.filter
+def get_title_from_url(value):
+    return value.split('/')[-1].replace('-', ' ').title()  

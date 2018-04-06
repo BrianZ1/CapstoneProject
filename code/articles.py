@@ -78,6 +78,7 @@ class EventSeperator:
     def get_player_team_names(self, site):
         html = request.urlopen(site).read().decode('utf8')
         soup = BeautifulSoup(html, "lxml")
+
         team_with_player_name = {}
 
         teams_div = soup.find_all("div", {"class": "teamcard"})
@@ -110,3 +111,12 @@ class EventSeperator:
         sites = article_extractor.get_websites()        
         source = [article_extractor.parse_websites(site) for site in sites]
         return source
+    
+    '''
+    Get event name
+    '''
+    def get_event_name(self):
+        html = request.urlopen(self.get_website()).read().decode('utf8')
+        soup = BeautifulSoup(html, "lxml")
+        event_name = soup.find("h1", {"id": "firstHeading"})
+        return event_name.text.strip()

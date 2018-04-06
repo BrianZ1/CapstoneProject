@@ -1,5 +1,6 @@
 {% extends './base.html'  %}
 {% load static %}
+{% load esports_extras %}
 
 {% block content %}
 
@@ -10,7 +11,9 @@
     <ul>
       {% for player in player_list %}
       <li>
-        {{ player.name }} - {{ player.count }}
+        <b>Name: </b>{{ player.name|get_title_from_url }} <br>
+        <b>Game: </b>{{ player.game|get_title_from_url }} <br>
+        <b>Count: </b>{{ player.count }} <br>
       </li>
       {% endfor %}
     </ul>
@@ -24,7 +27,9 @@
     <ul>
       {% for event in event_list %}
       <li>
-        {{ event.name }} - {{ event.count }}
+        <b>Name: </b>{{ event.name|get_title_from_url }} <br>
+        <b>Game: </b>{{ event.game|get_title_from_url }} <br>
+        <b>Count: </b>{{ event.count }} <br>
       </li>
       {% endfor %}
     </ul>

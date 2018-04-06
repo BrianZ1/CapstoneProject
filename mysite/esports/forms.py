@@ -4,11 +4,14 @@ from django.forms import ModelForm
 from .models import Comment
 
 GAME_CHOICE = [
+        
     ('', 'Select Game'),
-    ('league of legends', 'Leauge of Legends'),
     ('counter-strike: global offensive', 'Counter-Strike: Global Offensive'),
     ('dota 2', 'Dota 2'),
+    ('heroes of the storm', 'Heroes of the Storm'),
+    ('league of legends', 'Leauge of Legends'),
     ('overwatch', 'Overwatch'),
+
             ]
 
 class PlayerSearchForm(forms.Form):

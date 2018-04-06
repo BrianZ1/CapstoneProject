@@ -10,14 +10,16 @@ class Comment(models.Model):
         return self.name
     
 class Player(models.Model):
-    name = models.CharField(max_length=50, unique=True)
+    name = models.CharField(max_length=50)
+    game = models.CharField(max_length=50)
     count = models.IntegerField()
     
     def increment_count(self):
         self.count += 1
     
 class Event(models.Model):
-    name = models.CharField(max_length=50, unique=True)
+    name = models.CharField(max_length=50)
+    game = models.CharField(max_length=50)
     count = models.IntegerField()
     
     def increment_count(self):

@@ -33,14 +33,13 @@ function myFunction() {
   <h3>{{ player_name }}</h3>
   <ul>
     {% for article in summary %}
-    <a href={{article}} target="_blank"> <h2> {{article}} </h2> </a>
+    <a href={{article}} target="_blank"> <h2> {{article|get_title_from_url}} </h2> </a>
       {% for sentence in summary|get_dict_item:article %}
       <li>{{ sentence|lstrip }} </li>
       {% endfor %}
+      <button type='button' onclick='myFunction()'>Add One Sentence</button>
     {% endfor %}
   </ul>
 </div>
-
-<button type='button' onclick='myFunction()'>Add One Sentence</button>
 
 {% endblock content %}
