@@ -6,6 +6,23 @@
 <title>Player Results</title>
 {% endblock title %}
 
+{% block javascript %}
+
+<script>
+function myFunction() {
+    $.ajax({
+      url: "{% url 'summarylength' %}",
+      type: 'get',
+      success: function (data) {
+        location.reload();
+      },
+
+    });
+}
+</script>
+
+{% endblock javascript %}
+
 {% block style %}
 <link rel="stylesheet" type="text/css" href="{% static 'esports/information.css' %}" />
 {% endblock style %}
@@ -23,5 +40,7 @@
     {% endfor %}
   </ul>
 </div>
+
+<button type='button' onclick='myFunction()'>Add One Sentence</button>
 
 {% endblock content %}

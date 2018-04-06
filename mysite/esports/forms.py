@@ -6,7 +6,9 @@ from .models import Comment
 GAME_CHOICE = [
     ('', 'Select Game'),
     ('league of legends', 'Leauge of Legends'),
-    ('counter-strike: global offensive', 'Counter-Strike: Global Offensive')
+    ('counter-strike: global offensive', 'Counter-Strike: Global Offensive'),
+    ('dota 2', 'Dota 2'),
+    ('overwatch', 'Overwatch'),
             ]
 
 class PlayerSearchForm(forms.Form):
@@ -15,13 +17,17 @@ class PlayerSearchForm(forms.Form):
     
     game = forms.ChoiceField(label='Game Type', choices=GAME_CHOICE)
     
-    num_bullet = forms.IntegerField(label='Summary Length', 
+    num_articles = forms.IntegerField(label='Number of Articles', 
                                 widget=forms.TextInput(attrs={'placeholder': 'Enter a Number...'}))
 
 class EventSearchForm(forms.Form):
     event_name = forms.CharField(label='Event Name', max_length=100,
                             widget=forms.TextInput(attrs={'placeholder': 'Enter Event Name...'}))
+    
     game = forms.ChoiceField(label='Game Type', choices=GAME_CHOICE)
+    
+    num_articles = forms.IntegerField(label='Number of Articles', 
+                                widget=forms.TextInput(attrs={'placeholder': 'Enter a Number...'}))
     
 class ContactForm(ModelForm):
     class Meta:

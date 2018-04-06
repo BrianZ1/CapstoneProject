@@ -4,7 +4,7 @@ Player Search Form
 .player-form {
   border-radius: 5px;
   padding: 20px;
-  width: 30%;
+  width: 40%;
   text-align: center;
   margin-top: 20px;
 }
@@ -49,7 +49,7 @@ Player Search Form
     display: inline-block;
     float: left;
     text-align: right;
-    width: 160px;
+    width: 200px;
     color: #191919;
   }
 
@@ -65,7 +65,7 @@ Event Search Form
 .event-form {
   border-radius: 5px;
   padding: 20px;
-  width: 30%;
+  width: 40%;
   text-align: center;
   margin-top: 20px;
 }
@@ -114,7 +114,7 @@ Event Search Form
     display: inline-block;
     float: left;
     text-align: right;
-    width: 160px;
+    width: 200px;
     color: #191919;
   }
 

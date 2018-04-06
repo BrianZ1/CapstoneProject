@@ -18,10 +18,10 @@ class ArticleExtractor:
     '''
     Init class with player name to search
     '''
-    def __init__(self, name, game, bullet_points=5):
+    def __init__(self, name, game, num_articles = 1):
         self.player_name = name
         self.game_name = game
-        self.number_of_bullet_points = bullet_points
+        self.num_articles = num_articles
         #print("Looking up articles for player: " + self.player_name)
 
     '''
@@ -31,7 +31,7 @@ class ArticleExtractor:
         return [site for site in 
                 googlesearch.search(
                         " \" " + self.player_name + " \"\" " + self.game_name + " \" " + " player articles",
-                                        num=2, stop=2, tpe='nws',
+                                        num = self.num_articles, stop=self.num_articles, tpe='nws',
                                         only_standard=True)]
 
     '''
@@ -40,31 +40,27 @@ class ArticleExtractor:
     def parse_websites(self, url):  
         paragraph = []
 
-        try:
-            html = request.urlopen(url).read().decode('utf8')
-            soup = BeautifulSoup(html, "lxml")
-
-            for br in soup.find_all("br"):
-                br.replace_with(" ")
+        html = request.urlopen(url).read().decode('utf8')
+        soup = BeautifulSoup(html, "lxml")
                 
-            for p in soup.find_all('p'):
-                if "Sort comment" in p.text or "PRIVACY POLICY" in p.text or "cookies" in p.text:
-                    continue
-                paragraph.append(p.text.strip())
-        except:
-            paragraph.append(" ")
+        for br in soup.find_all("br"):
+            br.replace_with(" ")
+            
+        for p in soup.find_all('p'):
+            if "Sort comment" in p.text or "PRIVACY POLICY" in p.text or "cookies" in p.text:
+                continue
+            paragraph.append(p.text.strip())
 
         return paragraph
-
 
 class EventSeperator:
     '''
     Init class with event name and game to search
     '''
-    def __init__(self, name, game):
+    def __init__(self, name, game, number_articles = 1):
         self.event_name = name
         self.event_game = game
-        self.number_of_bullet_points = 5
+        self.number_articles = number_articles
         #print("Looking up players for event: " + self.event_name)
 
     '''
@@ -72,7 +68,8 @@ class EventSeperator:
     Returns main webpage for event
     '''
     def get_website(self):
-        for site in googlesearch.search((self.event_name + 'liquipedia'), num=1, stop=1):
+        for site in googlesearch.search(self.event_name + ' liquipedia'):
+            print(site)
             return site
 
     '''
@@ -100,7 +97,8 @@ class EventSeperator:
                 cols = row.find("td")
                 data.append(cols.text.strip())  
                 
-            team_with_player_name[team_name] = dict.fromkeys(data)
+            if team_name:    
+                team_with_player_name[team_name] = dict.fromkeys(data)
         
         return team_with_player_name
 

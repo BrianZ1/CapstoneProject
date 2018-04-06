@@ -12,6 +12,7 @@ urlpatterns = [
     path('eventsearch/<str:name>/<str:team>', views.eventResultsTeam, name='eventresultsteam'),
     url(r'^ajax/eventinformation/$', views.eventInformation, name='eventinformation'),
     path('about/', views.about, name='about'),
+    path('summarylength/', views.increment_summary_length, name='summarylength'),
     path('contact/', views.contact, name='contact'),      
     
 ]

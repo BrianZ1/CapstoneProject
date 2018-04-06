@@ -24,8 +24,8 @@ def word_in_string(s, w):
 
 class Summarization:
 
-    def __init__(self, length):
-        self.summary_length = length
+    def __init__(self):
+        self.summary_length = 5
 
     '''
     Main function for text summarizer
@@ -39,4 +39,4 @@ class Summarization:
         
         summary_methods = NaiveBayesClassifier()
     
-        return summary_methods.get_summary(sites, articles, self.summary_length)
+        return summary_methods.get_summary(sites, articles)

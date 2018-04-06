@@ -9,6 +9,10 @@ from esports.models import Player, Event
 import esports.views as page
 from esports.forms import PlayerSearchForm, EventSearchForm
 
+import sys
+sys.path.append(r'..\code')
+from main import player_search
+
 ## Feature 1
 #class StoreSearchQueriesTestCase(TestCase):
 #    
@@ -129,48 +133,101 @@ class MoreOptionsInFormsTestCase(TestCase):
         self.event_response = self.client.get('/eventsearch/')
         
     def test_display_league_option(self):
-        self.assertContains(self.player_response, '<option value="league of legends">Leauge of Legends</option>', html=True)   
+        self.assertContains(self.player_response,
+                            '<option value="league of legends">Leauge of Legends</option>',
+                            html=True)   
+        self.assertContains(self.event_response,
+                            '<option value="league of legends">Leauge of Legends</option>',
+                            html=True)   
        
     def test_display_csgo_option(self):
-        self.assertContains(self.player_response, '<option value="counter-strike: global offensive">Counter-Strike: Global Offensive</option>', html=True)   
-    
-    def test_save_game_type_option(self):
+        self.assertContains(self.player_response,
+                            '<option value="counter-strike: global offensive">Counter-Strike: Global Offensive</option>',
+                            html=True)   
+        
+        self.assertContains(self.event_response,
+                            '<option value="counter-strike: global offensive">Counter-Strike: Global Offensive</option>',
+                            html=True)  
+        
+    def test_display_Dota2_option(self):
+        self.assertContains(self.player_response,
+                            '<option value="dota 2">Dota 2</option>',
+                            html=True)   
+        
+        self.assertContains(self.event_response,
+                            '<option value="dota 2">Dota 2</option>',
+                            html=True) 
+        
+    def test_display_Overwatch_option(self):
+        self.assertContains(self.player_response,
+                            '<option value="overwatch">Overwatch</option>',
+                            html=True)   
+        
+        self.assertContains(self.event_response,
+                            '<option value="overwatch">Overwatch</option>',
+                            html=True) 
+
+    def test_save_game_type_option_player(self):
         form = PlayerSearchForm({
                 'player_name' : 'test', 
-                'game' : 'league of legends',
-                'num_bullet': 5,
+                'game' : 'counter-strike: global offensive',
+                'num_articles': 5,
                 })
         self.assertTrue(form.is_valid())
-        self.assertEqual(form.cleaned_data['game'], 'league of legends')
+        self.assertEqual(form.cleaned_data['game'], 'counter-strike: global offensive')
     
-    def test_display_game_summary(self):
-        self.fail("Not Implemented")
+    def test_save_game_type_option_event(self):
+        form = EventSearchForm({
+                'event_name' : 'test', 
+                'game' : 'counter-strike: global offensive',
+                'num_articles': 5,
+                })
+        self.assertTrue(form.is_valid())
+        self.assertEqual(form.cleaned_data['game'], 'counter-strike: global offensive')
         
 # Feature 4
-class Feature4TestCase(TestCase):
+class AddExtraSentenceToSummaryTestCase(TestCase):
     
     def setUp(self):
         self.client = Client()    
-        self.player_response = self.client.get('/playerresults/a')
-        self.event_response = self.client.get('/eventresults/')
-        
-    def test_result_page_loads(self):
-        form = PlayerSearchForm({
-                'player_name' : 'test', 
-                'game' : 'league of legends',
-                'num_bullet': 5,
-                })
-        self.assertEqual(self.player_response.status_code, 200)
-        self.assertTemplateUsed(self.player_response, 'esports/playerresults.html')
     
     def test_initial_summary(self):
-        self.fail("Not Implemented")
+        articles = player_search('doublelift', 'league of legends', 2)
+        
+        self.assertEquals(len(articles), 2)
+        
+        short_article = page.get_summary_of_length(articles, 5)
+        for article in short_article:
+            self.assertEquals(len(short_article[article]), 5)
     
     def test_extra_summary_button_display(self):
-        self.fail("Not Implemented")
+        session = self.client.session
+        session["summary_length"] = 5
+        
+        response = self.client.get('/about/')
+        self.assertContains(response, "<button type='button' onclick='myFunction()'>Add One Sentence</button>")
         
     def test_extra_summary_button_functionality(self):
-        self.fail("Not Implemented")
+        test_summary = {'test': ['1', '2', '3', '4', '5', '6', '7', '8']}
+        
+        session = self.client.session
+        
+        page.increment_sentence_length(session, 7)
+        short_test_summary = page.get_summary_of_length(test_summary, session["summary_length"] )
+        for article in short_test_summary:
+            self.assertEquals(len(short_test_summary[article]), 8)
         
     def test_no_more_summary(self):
-        self.fail("Not Implemented")
+        test_summary = {'test': ['1', '2', '3', '4', '5']}
+        
+        short_test_summary = page.get_summary_of_length(test_summary, 7)
+        for article in short_test_summary:
+            self.assertEquals(len(short_test_summary[article]), 5)
+        
+    def test_not_enough_summary(self):
+        test_summary = {'test': ['1', '2', '3', '4']}
+        
+        short_test_summary = page.get_summary_of_length(test_summary, 5)
+        for article in short_test_summary:
+            self.assertLessEqual(len(short_test_summary[article]), 5)
+            self.assertListEqual(short_test_summary[article], ['Not Enough Information from Site'])

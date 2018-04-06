@@ -27,7 +27,8 @@ body {
 .searched ul {
   list-style-type: none;
   padding: 10px;
-  margin-bottom: 100px;
+  margin-bottom: 50px;
+  display: flex;
 }
 
 .searched li {
@@ -35,4 +36,5 @@ body {
   border: 1px solid #B1A7A5;
   padding: 30px;
   margin: 10px;
+  text-align: center;
 }

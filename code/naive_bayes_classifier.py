@@ -18,9 +18,9 @@ class NaiveBayesClassifier():
     '''
     Main function to get summary
     '''
-    def get_summary(self, sites, articles, summary_length):
+    def get_summary(self, sites, articles):
         articles_dict = self.calculate_sentence_score(sites, articles)
-        return self.choose_best_sentences(articles_dict, summary_length)
+        return self.choose_best_sentences(articles_dict)
     
     '''
     Gives a score to each sentence in a text
@@ -49,9 +49,9 @@ class NaiveBayesClassifier():
     '''
     Chooses the best scoring sentences for the summary
     '''
-    def choose_best_sentences(self, articles_dict, summary_length):
+    def choose_best_sentences(self, articles_dict):
         for sentence_dict in articles_dict:
-            articles_dict[sentence_dict] = sorted(articles_dict[sentence_dict], key=articles_dict[sentence_dict].get, reverse=True)[:summary_length]
+            articles_dict[sentence_dict] = sorted(articles_dict[sentence_dict], key=articles_dict[sentence_dict].get, reverse=True)
         
         return articles_dict
     
