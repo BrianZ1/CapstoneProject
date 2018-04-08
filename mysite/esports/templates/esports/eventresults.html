@@ -15,12 +15,15 @@
 <script>
   $("#players-info").find("ul").each(function () {
     var name = this.id;
-
+    var game = $(this).attr('game');
+    console.log(game);
+    
     $.ajax({
       url: "{% url 'eventinformation' %}",
       type: 'get',
       data: {
         'player': this.id,
+        'game': game,
       },
       success: function (data) {
         $("#" + name).html(data);
@@ -40,7 +43,7 @@
 <ul class="player-navbar">
   {% for team in sorted_team_player_list %}
   <li class="dropdown">
-    <a href="{% url 'eventresultsteam' event_name team %}" class="dropbtn">{{team}}</a>
+    <a href="{% url 'eventresultsteam' game event_name team %}" class="dropbtn">{{team}}</a>
     <div class="dropdown-content">
       {% for player in sorted_team_player_list|get_dict_item:team %}
       <p>{{player}}</p>
@@ -50,14 +53,14 @@
   {% endfor %}
 </ul>
 
-<h1>{{event_name}}</h1>
-<h2>{{team_name}}</h2>
+<h1>{{event_name|get_title_from_url}}</h1>
+<h2>{{team_name|get_title_from_url}}</h2>
 
 <div id="players-info" class="event-info">
   {% for player in sorted_team_player_list|get_dict_item:team_name %}
   <div>
     <h3>{{player}}</h3>
-    <ul id={{player}}>
+    <ul id="{{player}}" game="{{game}}">
       Getting player information...
       {% for sentence in sorted_team_player_list|get_dict_item:team_name|get_dict_item:player %}
       <li>{{ sentence|lstrip }} </li>

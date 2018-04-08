@@ -1,7 +1,7 @@
 {% load esports_extras %}
 
 {% for article in summary %}
-<a href={{article}} target="_blank"> <h2> {{article}} </h2> </a>
+<a href={{article}} target="_blank"> <h2> {{article|get_title_from_url}} </h2> </a>
   {% for sentence in summary|get_dict_item:article %}
   <li>{{ sentence|lstrip }} </li>
   {% endfor %}

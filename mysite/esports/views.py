@@ -43,18 +43,17 @@ def playerSearch(request):
                 player.increment_count()
                 player.save()
           
-            return HttpResponseRedirect('/esports/playersearch/' + request.session.get('player_name', None))
+            return HttpResponseRedirect('/esports/playersearch/' + request.session.get('game', None) + '/' + request.session.get('player_name', None))
     else:
         form = PlayerSearchForm()
 
     return render(request, 'esports/playersearch.html', {'form': form})
 
-def playerResults(request, name):
+def playerResults(request, game, player_name):
     try:
-        player_name = request.session.get('player_name', None)
-        game = request.session.get('game', None)
-        num_articles = request.session.get('num_articles', None)
-        summary_length = request.session.get('summary_length', None)
+        num_articles = request.session.get('num_articles', 5)
+        summary_length = request.session.get('summary_length', 5)
+        request.session['summary_length'] = summary_length
        
         if 'summary' in request.session:
             summary = request.session["summary"]
@@ -93,17 +92,15 @@ def eventSearch(request):
                 event.increment_count()
                 event.save()
           
-            return HttpResponseRedirect('/esports/eventsearch/' + event_name)
+            return HttpResponseRedirect('/esports/eventsearch/' + request.session.get('game', None) + '/' + event_name)
     else:
         form = EventSearchForm()
         
     return render(request, 'esports/eventsearch.html', {'form': form})
 
-def eventResults(request, name):
+def eventResults(request, game, event_name):
     try:
-        event_name = request.session.get('event_name', None)
-        game = request.session.get('game', None)
-        num_articles = request.session.get('num_articles', None)
+        num_articles = request.session.get('num_articles', 5)
         
         event_extractor = articles.EventSeperator(event_name, game, num_articles)
 
@@ -124,11 +121,8 @@ def eventResults(request, name):
         
     return render(request, 'esports/eventresults.html', context)
 
-def eventResultsTeam(request, name, team):
-    try:
-        event_name = request.session.get('event_name', None)
-        game = request.session.get('game', None)
-    
+def eventResultsTeam(request, game, event_name, team):
+    try:    
         context = {'event_name': event_name,
                    'game': game,
                    'sorted_team_player_list': request.session.get('sorted_team_player_list', None),
@@ -142,31 +136,24 @@ def eventResultsTeam(request, name, team):
 def eventInformation(request):
     
     player_name = request.GET.get('player', None)
-    game = request.session.get('game', None)
-    num_articles = request.session.get('num_articles', None)
-    summary_length = request.session.get('summary_length', None)
-    team = request.session.get('team', None)
-    sorted_team_player_list = request.session.get('sorted_team_player_list', None)
+    game = request.GET.get('game', None)
+    num_articles = request.session.get('num_articles', 5)
+    summary_length = request.session.get('summary_length', 5)
 
-    if sorted_team_player_list[team][player_name] == None:
-        summary = main.player_search(player_name, game, num_articles)
-        sorted_team_player_list[team][player_name] = summary
-    else:
-        summary = sorted_team_player_list[team][player_name]
-        
-        
+    summary = main.player_search(player_name, game, num_articles)
+
     shortened_summary = get_summary_of_length(summary, summary_length)
     
     context = { 'summary': shortened_summary }
     
     return render(request, 'esports/information.html', context)
 
-def about(request):    
-    return render(request, 'esports/about.html')
-
 def increment_summary_length(request):
     increment_sentence_length(request.session, request.session["summary_length"])    
     return HttpResponse(status=201)
+
+def about(request):    
+    return render(request, 'esports/about.html')
 
 def contact(request):
     if request.method == 'POST':
@@ -205,3 +192,4 @@ def get_summary_of_length(articles_dict_old, length):
     
 def increment_sentence_length(session, length):
     session["summary_length"] = length + 1
+    

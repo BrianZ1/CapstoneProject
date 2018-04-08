@@ -9,7 +9,7 @@
 {% block javascript %}
 
 <script>
-function myFunction() {
+function incrementSummaryLength() {
     $.ajax({
       url: "{% url 'summarylength' %}",
       type: 'get',
@@ -30,16 +30,16 @@ function myFunction() {
 {% block content %}
 
 <div class="player-info">
-  <h3>{{ player_name }}</h3>
+  <h3>{{ player_name|get_title_from_url }}</h3>
   <ul>
     {% for article in summary %}
     <a href={{article}} target="_blank"> <h2> {{article|get_title_from_url}} </h2> </a>
       {% for sentence in summary|get_dict_item:article %}
       <li>{{ sentence|lstrip }} </li>
       {% endfor %}
-      <button type='button' onclick='myFunction()'>Add One Sentence</button>
     {% endfor %}
   </ul>
+  <button type='button' onclick='incrementSummaryLength()'>Add One Sentence</button>
 </div>
 
 {% endblock content %}

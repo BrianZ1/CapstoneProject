@@ -39,6 +39,10 @@ body {
   text-align: left;
 }
 
+.searched a {
+  color: inherit;
+}
+
 button {
     background-color: #5B5553;
     color: #F4F5F6;
@@ -51,7 +55,8 @@ button {
     margin-right: auto;
     display: flex;
     justify-content: center; 
-    margin-top: 20px;
+    position:sticky;
+    bottom:0;
 }
 
   button:hover {

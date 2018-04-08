@@ -18,7 +18,7 @@ class ArticleExtractor:
     '''
     Init class with player name to search
     '''
-    def __init__(self, name, game, num_articles = 1):
+    def __init__(self, name, game, num_articles = 2):
         self.player_name = name
         self.game_name = game
         self.num_articles = num_articles
@@ -69,7 +69,6 @@ class EventSeperator:
     '''
     def get_website(self):
         for site in googlesearch.search(self.event_name + ' liquipedia'):
-            print(site)
             return site
 
     '''
