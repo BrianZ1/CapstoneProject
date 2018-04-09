@@ -8,7 +8,7 @@
 {% block javascript %}
 
 <script>
-  $("#submit-button").click(function() {
+  $("#submit-butto").click(function() {
      $(".player-form").hide();
      $("#loading").show();
   });
@@ -23,6 +23,16 @@
 {% block content %}
 
 <p id="loading" style="display:none">Getting Player Information...</p>
+
+  {% if messages %}
+  <ul>
+    {% for message in messages %}
+    <li>
+      {{ message }}
+    </li>
+    {% endfor %}
+  </ul>
+  {% endif %}
 
 <div class="player-form">
   <form action='/playersearch/' method='post'>
