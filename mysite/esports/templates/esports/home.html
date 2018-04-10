@@ -2,7 +2,20 @@
 {% load static %}
 {% load esports_extras %}
 
+{% block javascript %}
+
+<script>
+  $(".info-box").click(function() {
+     $(".searched").hide();
+     $("#loading").show();
+  });
+</script>
+
+{% endblock javascript %}
+
 {% block content %}
+
+<p id="loading" style="display:none">Getting Information...</p>
 
 <div class="searched"> 
     <h2>Top 5 Searched Players</h2>
@@ -10,7 +23,7 @@
     {% if player_list %} 
     <ul>
       {% for player in player_list %}
-      <a href="{% url 'playerresults' player.name player.game %}">
+      <a href="{% url 'playerresults' player.game player.name %}" class="info-box">
       <li>
         <b>Name: </b>{{ player.name|get_title_from_url }} <br>
         <b>Game: </b>{{ player.game|get_title_from_url }} <br>
@@ -28,7 +41,7 @@
     {% if event_list %} 
     <ul>
       {% for event in event_list %}
-      <a href="{% url 'playerresults' event.name event.game %}">
+      <a href="{% url 'eventresults' event.game event.name %}" class="info-box">
       <li>
         <b>Name: </b>{{ event.name|get_title_from_url }} <br>
         <b>Game: </b>{{ event.game|get_title_from_url }} <br>

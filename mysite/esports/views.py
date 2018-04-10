@@ -6,6 +6,9 @@ from django.http import JsonResponse
 from .forms import PlayerSearchForm, EventSearchForm, ContactForm
 from .models import Comment, Player, Event
 
+from random import randint
+from time import sleep
+
 import sys
 sys.path.append(r'..\code')
 import main, articles, summarization
@@ -42,7 +45,7 @@ def playerSearch(request):
                 player = Player.objects.get(name=form.cleaned_data['player_name'].lower(), game=form.cleaned_data['game'].lower())
                 player.increment_count()
                 player.save()
-          
+                          
             return HttpResponseRedirect('/esports/playersearch/' + request.session.get('game', None) + '/' + request.session.get('player_name', None))
     else:
         form = PlayerSearchForm()
@@ -91,7 +94,7 @@ def eventSearch(request):
                 event = Event.objects.get(name=event_name.lower(), game=form.cleaned_data['game'].lower())
                 event.increment_count()
                 event.save()
-          
+                
             return HttpResponseRedirect('/esports/eventsearch/' + request.session.get('game', None) + '/' + event_name)
     else:
         form = EventSearchForm()
@@ -104,12 +107,14 @@ def eventResults(request, game, event_name):
         
         event_extractor = articles.EventSeperator(event_name, game, num_articles)
 
-        site = event_extractor.get_website();
+        site, date = event_extractor.get_website();
         sorted_team_player_list = event_extractor.get_player_team_names(site)
               
         request.session['sorted_team_player_list'] = sorted_team_player_list
         team = next(iter(sorted_team_player_list))
         request.session['team'] = team
+        request.session['start_date'] = date[0]
+        request.session['end_date'] = date[1]
     
         context = {'event_name': event_name,
                    'game': game,
@@ -135,15 +140,17 @@ def eventResultsTeam(request, game, event_name, team):
 
 def eventInformation(request):
     
+    sleep(randint(0,5))
+    
     player_name = request.GET.get('player', None)
     game = request.GET.get('game', None)
     num_articles = request.session.get('num_articles', 5)
     summary_length = request.session.get('summary_length', 5)
+    start_date = request.session.get('start_date', None)
+    end_date = request.session.get('end_date', None)
 
-    summary = main.player_search(player_name, game, num_articles)
-
-    shortened_summary = get_summary_of_length(summary, summary_length)
-    
+    summary = main.player_search(player_name, game, num_articles, start_date, end_date)
+    shortened_summary = get_summary_of_length(summary, summary_length)   
     context = { 'summary': shortened_summary }
     
     return render(request, 'esports/information.html', context)

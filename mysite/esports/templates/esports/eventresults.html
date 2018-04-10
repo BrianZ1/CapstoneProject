@@ -16,7 +16,6 @@
   $("#players-info").find("ul").each(function () {
     var name = this.id;
     var game = $(this).attr('game');
-    console.log(game);
     
     $.ajax({
       url: "{% url 'eventinformation' %}",
@@ -33,7 +32,6 @@
       }
 
     });
-
   });
 </script>
 

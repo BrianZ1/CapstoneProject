@@ -18,21 +18,40 @@ class ArticleExtractor:
     '''
     Init class with player name to search
     '''
-    def __init__(self, name, game, num_articles = 2):
+    def __init__(self, name, game, num_articles=2, start=None, end=None):
         self.player_name = name
         self.game_name = game
         self.num_articles = num_articles
+        self.start_date = start
+        self.end_date = end
+        
+        if start != None and end != None:
+            start = start.replace('-','/')
+            start = start[5:] + '/' + start[:4]
+            self.start_date = start
+            
+            end = end.replace('-','/')
+            end = end[5:] + '/' + end[:4]
+            self.end_date = end
         #print("Looking up articles for player: " + self.player_name)
 
     '''
     Uses google api to get a list of sites
     '''
     def get_websites(self):
-        return [site for site in 
-                googlesearch.search(
-                        " \" " + self.player_name + " \"\" " + self.game_name + " \" " + " player articles",
-                                        num = self.num_articles, stop=self.num_articles, tpe='nws',
+        search = " \" " + self.player_name + " \"\" " + self.game_name + " \" " + " player articles"
+        
+        if self.start_date == None and self.end_date == None: 
+            return [site for site in 
+                    googlesearch.search(search, num = self.num_articles,
+                                        stop=self.num_articles, tpe='nws',
                                         only_standard=True)]
+        else:
+            time_range ='cdr:1,cd_min:' + self.start_date + ',cd_max:' + self.end_date
+            return [site for site in 
+                    googlesearch.search(search, num = self.num_articles,
+                                        stop=self.num_articles, tpe='nws',
+                                        tbs=time_range, only_standard=True)]
 
     '''
     Uses beautiful soup to parse given url.
@@ -69,7 +88,7 @@ class EventSeperator:
     '''
     def get_website(self):
         for site in googlesearch.search(self.event_name + ' liquipedia'):
-            return site
+            return site, self.get_event_time_period(site)
 
     '''
     Returns individual players and players seperated by team
@@ -115,7 +134,26 @@ class EventSeperator:
     Get event name
     '''
     def get_event_name(self):
-        html = request.urlopen(self.get_website()).read().decode('utf8')
+        html = request.urlopen(self.get_website()[0]).read().decode('utf8')
         soup = BeautifulSoup(html, "lxml")
         event_name = soup.find("h1", {"id": "firstHeading"})
         return event_name.text.strip()
+    
+    '''
+    Get start and end dates for event
+    '''
+    def get_event_time_period(self, site):
+        html = request.urlopen(site).read().decode('utf8')
+        soup = BeautifulSoup(html, "lxml")
+    
+        info_box = soup.find_all("div", {"class": "infobox-cell-2"})
+        
+        for element in info_box:
+            if element.text == "Start Date:":
+                start_date = element.findNext('div').text
+    
+            if element.text == "End Date:":
+                end_date = element.findNext('div').text
+                
+        return start_date, end_date
+        

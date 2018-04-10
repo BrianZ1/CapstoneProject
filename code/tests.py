@@ -11,6 +11,8 @@ from multiprocessing import cpu_count
 import os
 from timeit import default_timer as timer # Timer
 from main import player_search
+from bs4 import BeautifulSoup
+from urllib import request
 '''
         start = timer()
         end = timer()
@@ -19,8 +21,32 @@ from main import player_search
 from naive_bayes_classifier import NaiveBayesClassifier
 
 if __name__ == '__main__':    
-    value = 'https://www.invenglobal.com/articles/4680/tl-doublelift-i-would-love-to-play-clutch-in-the-finals-because-they-are-the-worst-team-in-playoffs'
-    print(value.split('/')[-1].replace('-', ' ').title())
+    html = request.urlopen('http://liquipedia.net/leagueoflegends/World_Championship/2017').read().decode('utf8')
+    soup = BeautifulSoup(html, "lxml")
+    event_name = soup.find("div", {"class": "fo-nttax-infobox"})
+
+    info_box = soup.find_all("div", {"class": "infobox-cell-2"})
+    
+    for element in info_box:
+        if element.text == "Start Date:":
+            start_date = element.findNext('div').text
+
+        if element.text == "End Date:":
+            end_date = element.findNext('div').text
+            
+    #print(start_date.replace('-','/'), end_date.replace('-','/'))
+    start_date = None
+    if start_date != None and end != None:
+        a = start_date.replace('-','/')
+        a = a[5:]+'/'+ a[:4]
+        print( a)
+    
+#    x = []
+#    x.
+    
+#    time_range ='cdr:1,cd_min:' + start_date.replace('-','/') + ',cd_max:' + end_date.replace('-','/')
+#    print(time_range)
+            
    
 def NBCTest():        
     nbc = NaiveBayesClassifier()
