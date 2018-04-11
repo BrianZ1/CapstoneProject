@@ -12,16 +12,14 @@
 
 {% block javascript %}
 
-<script>
-  $("#players-info").find("ul").each(function () {
-    var name = this.id;
-    var game = $(this).attr('game');
-    
+<script>  
+  function loadInfo(name, game) {
+    $("#" + name).html("Getting Player Info...");
     $.ajax({
       url: "{% url 'eventinformation' %}",
       type: 'get',
       data: {
-        'player': this.id,
+        'player': name,
         'game': game,
       },
       success: function (data) {
@@ -32,7 +30,7 @@
       }
 
     });
-  });
+  }
 </script>
 
 {% endblock javascript %}
@@ -58,11 +56,13 @@
   {% for player in sorted_team_player_list|get_dict_item:team_name %}
   <div>
     <h3>{{player}}</h3>
-    <ul id="{{player}}" game="{{game}}">
-      Getting player information...
+    <ul id="{{player}}">
       {% for sentence in sorted_team_player_list|get_dict_item:team_name|get_dict_item:player %}
       <li>{{ sentence|lstrip }} </li>
-      {% endfor %}
+      {% endfor %}      
+      <button onclick="loadInfo('{{player}}', '{{game}}')"> 
+      Find Information
+      </button>
     </ul>
   </div>
   {% endfor %}

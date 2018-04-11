@@ -1,17 +1,15 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.contrib import messages
-from django.http import JsonResponse
 
 from .forms import PlayerSearchForm, EventSearchForm, ContactForm
-from .models import Comment, Player, Event
+from .models import Player, Event
 
 from random import randint
 from time import sleep
 
-import sys
-sys.path.append(r'..\code')
-import main, articles, summarization
+from .code.main import player_search
+from .code.articles import EventSeperator
 
 def home(request):
     request.session.flush()
@@ -61,7 +59,7 @@ def playerResults(request, game, player_name):
         if 'summary' in request.session:
             summary = request.session["summary"]
         else:
-            summary = main.player_search(player_name, game, num_articles)
+            summary = player_search(player_name, game, num_articles, None, None)
             request.session["summary"] = summary
             
         shortened_summary = get_summary_of_length(summary, summary_length)
@@ -81,7 +79,7 @@ def eventSearch(request):
             request.session['num_articles'] = form.cleaned_data['num_articles']
             request.session['summary_length'] = 5
             
-            event_extractor = articles.EventSeperator(form.cleaned_data['event_name'], request.session['game'])
+            event_extractor = EventSeperator(form.cleaned_data['event_name'], request.session['game'])
             event_name = event_extractor.get_event_name()
             request.session['event_name'] = event_name
             
@@ -105,7 +103,7 @@ def eventResults(request, game, event_name):
     try:
         num_articles = request.session.get('num_articles', 5)
         
-        event_extractor = articles.EventSeperator(event_name, game, num_articles)
+        event_extractor = EventSeperator(event_name, game, num_articles)
 
         site, date = event_extractor.get_website();
         sorted_team_player_list = event_extractor.get_player_team_names(site)
@@ -140,7 +138,7 @@ def eventResultsTeam(request, game, event_name, team):
 
 def eventInformation(request):
     
-    sleep(randint(0,5))
+    sleep(randint(0,10))
     
     player_name = request.GET.get('player', None)
     game = request.GET.get('game', None)
@@ -149,7 +147,7 @@ def eventInformation(request):
     start_date = request.session.get('start_date', None)
     end_date = request.session.get('end_date', None)
 
-    summary = main.player_search(player_name, game, num_articles, start_date, end_date)
+    summary = player_search(player_name, game, num_articles, start_date, end_date)
     shortened_summary = get_summary_of_length(summary, summary_length)   
     context = { 'summary': shortened_summary }
     

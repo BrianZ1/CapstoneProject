@@ -11,6 +11,8 @@ GAME_CHOICE = [
     ('heroes of the storm', 'Heroes of the Storm'),
     ('league of legends', 'Leauge of Legends'),
     ('overwatch', 'Overwatch'),
+    ('rainbow six siege', 'Rainbow Six Siege'),
+    ('rocket league', 'Rocket League'),
 
             ]
 
