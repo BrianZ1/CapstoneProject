@@ -10,3 +10,4 @@ code/labeled_cnn_dataset.pkl
 *.pickle
 __pycache__
 db.sqlite3
+*.sqlite3
