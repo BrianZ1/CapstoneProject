@@ -7,6 +7,8 @@ the project is moved to the code folder in mysite.
 
 pip install -r requirements.txt <br />
 may need to run these commands as well: <br />
+  pip install --upgrade lxml <br />
+  pip install cssselect <br />
   nltk.download('punkt') <br />
   nltk.download('stopwords') <br />
   nltk.download('averaged_perceptron_tagger') <br />
