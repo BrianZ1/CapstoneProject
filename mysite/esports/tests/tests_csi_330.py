@@ -9,20 +9,18 @@ from esports.models import Player, Event
 import esports.views as page
 from esports.forms import PlayerSearchForm, EventSearchForm
 
-import sys
-sys.path.append(r'..\code')
-from main import player_search
+from esports.code.main import player_search
 
 # Feature 1
 class StoreSearchQueriesTestCase(TestCase):
     
     def setUp(self):
-        Player.objects.create(name="test", count=1)
-        Event.objects.create(name="test2", count=1)
+        Player.objects.create(name="test", game="empty", count=1)
+        Event.objects.create(name="test2", game="empty", count=1)
     
     # Tests for player add
     def test_add_to_player_database(self):
-        new_player = Player(name="a", count=1)
+        new_player = Player(name="a", game="empty", count=1)
         new_player.save()
         
         player_name = Player.objects.get(name="a")
@@ -37,7 +35,7 @@ class StoreSearchQueriesTestCase(TestCase):
     
     # Tests for event add
     def test_add_to_event_database(self):
-        new_event = Event(name="a", count=1)
+        new_event = Event(name="a", game="empty", count=1)
         new_event.save()
         
         event_name = Event.objects.get(name="a")
@@ -54,11 +52,11 @@ class StoreSearchQueriesTestCase(TestCase):
 class DisplayTopSearchQueriesTestCase(TestCase):
     
     def populate_database(self, database_object):
-        database_object.objects.create(name="test", count=1)
-        database_object.objects.create(name="test2", count=2)
-        database_object.objects.create(name="test3", count=7)
-        database_object.objects.create(name="test4", count=4)
-        database_object.objects.create(name="test5", count=5)
+        database_object.objects.create(name="test", game="empty", count=1)
+        database_object.objects.create(name="test2", game="empty", count=2)
+        database_object.objects.create(name="test3", game="empty", count=7)
+        database_object.objects.create(name="test4", game="empty", count=4)
+        database_object.objects.create(name="test5", game="empty", count=5)
         
         return database_object
         
@@ -175,6 +173,24 @@ class MoreOptionsInFormsTestCase(TestCase):
         self.assertContains(self.event_response,
                             '<option value="heroes of the storm">Heroes of the Storm</option>',
                             html=True) 
+
+    def test_display_Rocket_option(self):
+        self.assertContains(self.player_response,
+                            '<option value="rocket league">Rocket League</option>',
+                            html=True)   
+        
+        self.assertContains(self.event_response,
+                            '<option value="rocket league">Rocket League</option>',
+                            html=True) 
+
+    def test_display_Rainbow_option(self):
+        self.assertContains(self.player_response,
+                            '<option value="rainbow six siege">Rainbow Six Siege</option>',
+                            html=True)   
+        
+        self.assertContains(self.event_response,
+                            '<option value="rainbow six siege">Rainbow Six Siege</option>',
+                            html=True) 
         
     def test_save_game_type_option_player(self):
         form = PlayerSearchForm({
@@ -201,7 +217,7 @@ class AddExtraSentenceToSummaryTestCase(TestCase):
         self.client = Client()    
     
     def test_initial_summary(self):
-        articles = player_search('doublelift', 'league of legends', 2)
+        articles = player_search('doublelift', 'league of legends', 2, None, None)
         
         self.assertEquals(len(articles), 2)
         
