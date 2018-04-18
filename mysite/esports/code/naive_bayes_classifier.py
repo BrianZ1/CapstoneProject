@@ -71,15 +71,15 @@ def get_features(sentence, article):
                  if word not in stop_words_list 
                  and word not in string.punctuation]
     
-    set(word_list)
-    set(article)
+    word_list = set(word_list)
+    article = set(article)
     
     features['sentence_length'] = len(sentence)
     features['num_words'] = len(word_list)
     
     for word in word_list:
         
-        if word.isupper():
+        if word[0].isupper():
             captial_count += 1
             
         if word.isnumeric():
@@ -196,4 +196,4 @@ def train():
 
     print(nltk.classify.accuracy(classifier, test_set))
     print(classifier.show_most_informative_features())
-    save_classifier(classifier)         
+    save_classifier(classifier)

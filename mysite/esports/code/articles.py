@@ -66,7 +66,7 @@ class ArticleExtractor:
             br.replace_with(" ")
             
         for p in soup.find_all('p'):
-            if "Sort comment" in p.text or "PRIVACY POLICY" in p.text or "cookies" in p.text:
+            if "Sort comment" in p.text or "PRIVACY POLICY" in p.text or "cookies" in p.text or "Inven Global" in p.text or "Comments" in p.text:
                 continue
             paragraph.append(p.text.strip())
 
