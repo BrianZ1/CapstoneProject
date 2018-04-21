@@ -97,13 +97,14 @@ class NaiveBayesClassifierTestCase(TestCase):
         self.assertTrue(test_dict)
         self.assertEqual(len(test_dict), 2)
     
-class NLTKTestCase(TestCase):
-    
-    def test(self):
-        pass
-    
 class SummarizationTestCase(TestCase):
     
-    def test(self):
-        pass   
+    def setUp(self):
+        self.summarize = summarization.Summarization()
+    
+    def test_init(self):
+        self.assertEqual(self.summarize.summary_length, 5)
+    
+    def test_summary_no_article(self):
+        self.assertEqual(self.summarize.summarize_text(['test'], []), ["Not enought information about player"])
     

@@ -40,7 +40,7 @@ class ContactForm(ModelForm):
         fields = ['name', 'email', 'comment']
 
         widgets = {
-			  'name':forms.TextInput(attrs={'placeholder': 'Enter Your Name...'}),
+			  'name': forms.TextInput(attrs={'placeholder': 'Enter Your Name...'}),
             'email': forms.TextInput(attrs={'placeholder': 'Enter Your Email... (Not Required)'}),
 			  'comment': forms.Textarea(attrs={'placeholder': 'Enter Your Comment...', 'rows':4, 'cols':15}),
         }
